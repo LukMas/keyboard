@@ -33,7 +33,7 @@
 // #define LEADER_TIMEOUT 100
 
 #undef LEADER_TIMEOUT
-#define LEADER_TIMEOUT 500
+#define LEADER_TIMEOUT 1000
 
 /* key matrix size */
 #define MATRIX_ROWS 4

@@ -39,15 +39,16 @@ enum custom_layers {
 
 // enum custom_keycodes {
 //         QWERTY,
-//         FUNCT
+//         FUNCT,
+//         NAVI
 // };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_QWERTY] = { /* Base */
-                {             KC_A,         KC_B,              KC_C,        KC_ESC}, \
-                {             KC_D,         KC_E,              KC_F,    TT(_FUNCT)}, \
-                {LT(_NAVI, KC_TAB),OSM(MOD_LALT),     OSM(MOD_LCTL), OSM(MOD_LSFT)}, \
-                {TD(TD_L_BRACKETS),    KC_SPACE,  TD(TD_R_BRACKETS),       KC_LEAD}
+                {              KC_A,         KC_B,              KC_C,        KC_ESC}, \
+                {              KC_D,         KC_E,              KC_F,    TT(_FUNCT)}, \
+                { LT(_NAVI, KC_TAB),OSM(MOD_LALT),     OSM(MOD_LCTL), OSM(MOD_LSFT)}, \
+                { TD(TD_L_BRACKETS),     KC_SPACE, TD(TD_R_BRACKETS),       KC_LEAD}
         },
         [_FUNCT] = {
                 {KC_1,           KC_2,        KC_3,    KC_0}, \
@@ -56,14 +57,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 {XXXXXXX,   KC_BSPACE,     XXXXXXX, _______}
         },
         [_NAVI] = {
-                {KC_MS_BTN1,             KC_MS_UP,        KC_MS_BTN2, KC_MS_ACCEL2}, \
-                {KC_MS_LEFT,           KC_MS_DOWN,       KC_MS_RIGHT, KC_MS_ACCEL1}, \
-                {KC_MS_WH_UP,       KC_MS_WH_LEFT,    KC_MS_WH_RIGHT, KC_MS_ACCEL0}, \
-                {KC_MS_WH_DOWN,           XXXXXXX,     XXXXXXX, XXXXXXX}
+                {   KC_MS_BTN1,        KC_MS_UP,     KC_MS_BTN2,   KC_MS_ACCEL2}, \
+                {   KC_MS_LEFT,      KC_MS_DOWN,    KC_MS_RIGHT,   KC_MS_ACCEL1}, \
+                {      _______,     KC_MS_WH_UP,        _______,   KC_MS_ACCEL0}, \
+                {KC_MS_WH_LEFT,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT,        _______}
         }
-
 };
-
 
 const uint16_t PROGMEM fn_actions[] = {
 
@@ -97,9 +96,6 @@ void matrix_scan_user(void) {
                 SEQ_ONE_KEY(KC_A) {
                         // Anything you can do in a macro.
                         SEND_STRING("QMK is awesome.");
-                }
-                SEQ_TWO_KEYS(KC_A, KC_B) {
-                        SEND_STRING(SS_LCTRL("a") SS_LCTRL("c"));
                 }
                 SEQ_TWO_KEYS(KC_A, KC_1) {
                         SEND_STRING("Simulate ALT+1.");
