@@ -15,6 +15,10 @@
  */
 #include QMK_KEYBOARD_H
 
+
+// extern inline void icekeys_led_on(void);
+// extern inline void icekeys_led_off(void);
+//
 // #define LEADER_TIMEOUT 300
 LEADER_EXTERNS();
 
@@ -83,6 +87,12 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         return MACRO_NONE;
 };
 
+void icekeys_led_on(void) {
+        DDRD |=  (1<<7); PORTD |=  (1<<7);
+}
+void icekeys_led_off(void) {
+        DDRD &=  ~(1<<7); PORTD &=  ~(1<<7);
+}
 
 void matrix_init_user(void) {
 
@@ -151,4 +161,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void led_set_user(uint8_t usb_led) {
 
+}
+
+// Runs whenever there is a layer state change.
+uint32_t layer_state_set_user(uint32_t state) {
+        icekeys_led_off();
+
+        uint8_t layer = biton32(state);
+        switch (layer) {
+        case 0:
+                break;
+        case 1:
+                icekeys_led_on();
+                break;
+        case 2:
+                break;
+        default:
+                break;
+        }
+
+        return state;
 }
