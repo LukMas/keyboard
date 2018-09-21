@@ -1,0 +1,58 @@
+-----------------------------------------------------------------------------------------------------------LAYERS
+
+1. base, where the boards will be glued
+   heigth: 2 to 3mm
+
+2. frame layer
+   heigth: 15mm (with a hole of 1.5mm to support the metal plate)
+   
+3. keys layer, made or metall, where the keys are put. The back of it contains the wires between the keys and the boards 
+   heigth: 1.5mm
+   
+4. Enclosing layer, it makes like a frame that encloses the metall layers
+   heigth: 1 to 2mm
+   
+Total heigth: 
+   18mm to 20mm
+
+
+-----------------------------------------------------------------------------------------------------------   
+CONTENT 
+
+1. teensy with pins (without pins?)
+   11mm
+   
+2. keys 
+   -7mm (verify if could be less)
+   
+3. trackball
+   11mm
+   2mm border (1.5mm fit in the metal plate, 0.5mm in the enclosing layer)
+
+4. trackball pbc
+   ?
+
+5. leds (verify if better strip or single leds)
+   
+-----------------------------------------------------------------------------------------------------------   
+WIRING
+
+Leds to install: 9 (or led strip?)
+    1. Shift
+    2. Ctrl
+    3. Alt
+    4. Fn
+    5. Sym
+    6. Navi
+    7. Fx
+    8. Lead
+    9. ???
+
+Row x Columns: 
+    4 + (8x2) = 20
+
+Trackball:
+    2
+    
+Total pins used: 
+    31
