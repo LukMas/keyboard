@@ -19,7 +19,6 @@
 // extern inline void icekeys_led_on(void);
 // extern inline void icekeys_led_off(void);
 //
-// #define LEADER_TIMEOUT 300
 LEADER_EXTERNS();
 
 //Tap Dance Declarations
