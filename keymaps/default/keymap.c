@@ -98,6 +98,13 @@ void matrix_init_user(void) {
 }
 
 void matrix_scan_user(void) {
+        if (keyboard_report->mods & MOD_BIT(KC_LSFT) ||
+            ((get_oneshot_mods() & MOD_BIT(KC_LSFT)) && !has_oneshot_mods_timed_out())) {
+                icekeys_led_on();
+        } else {
+                icekeys_led_off();
+        }
+
         LEADER_DICTIONARY() {
                 leading = false;
                 leader_end();
