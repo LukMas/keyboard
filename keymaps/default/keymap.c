@@ -14,18 +14,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-
-
+#include "pointing_device.h"
 // extern inline void icekeys_led_on(void);
 // extern inline void icekeys_led_off(void);
 //
 LEADER_EXTERNS();
 
-//Tap Dance Declarations
 enum {
         TD_L_BRACKETS = 0,
         TD_R_BRACKETS
 };
+
 qk_tap_dance_action_t tap_dance_actions[] = {
         //Tap once for Esc, twice for Caps Lock
         [TD_L_BRACKETS]  = ACTION_TAP_DANCE_DOUBLE(KC_LBRACKET, KC_LPRN),
@@ -36,12 +35,14 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 enum custom_layers {
         _QWERTY,
-        _FUNCT,
-        _NAVI
+        _FUNCT
+};
+
+enum custom_keys {
+        MS_MOD = SAFE_RANGE
 };
 
 // enum custom_keycodes {
-//         QWERTY,
 //         FUNCT,
 //         NAVI
 // };
@@ -50,22 +51,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_QWERTY] = { /* Base */
                 {              KC_A,         KC_B,              KC_C,        KC_ESC}, \
                 {              KC_D,         KC_E,              KC_F,    TT(_FUNCT)}, \
-                { LT(_NAVI, KC_TAB),OSM(MOD_LALT),     OSM(MOD_LCTL), OSM(MOD_LSFT)}, \
+                {            KC_TAB,OSM(MOD_LALT),     OSM(MOD_LCTL), OSM(MOD_LSFT)}, \
                 { TD(TD_L_BRACKETS),     KC_SPACE, TD(TD_R_BRACKETS),       KC_LEAD}
         },
         [_FUNCT] = {
-                {KC_1,           KC_2,        KC_3,    KC_0}, \
-                {KC_4,           KC_5,        KC_6, _______}, \
-                {KC_7,           KC_8,        KC_9, _______}, \
-                {XXXXXXX,   KC_BSPACE,     XXXXXXX, _______}
-        },
-        [_NAVI] = {
-                {   KC_MS_BTN1,        KC_MS_UP,     KC_MS_BTN2,   KC_MS_ACCEL2}, \
-                {   KC_MS_LEFT,      KC_MS_DOWN,    KC_MS_RIGHT,   KC_MS_ACCEL1}, \
-                {      _______,     KC_MS_WH_UP,        _______,   KC_MS_ACCEL0}, \
-                {KC_MS_WH_LEFT,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT,        _______}
+                {   KC_1,           KC_2,          KC_3,    KC_0}, \
+                {   KC_4,           KC_5,          KC_6, _______}, \
+                {   KC_7,         MS_MOD,       _______, _______}, \
+                {XXXXXXX,      KC_BSPACE,       XXXXXXX, _______}
         }
 };
+/* , LT(_NAVI, KC_TAB)
+   [_NAVI] = {
+         {   KC_MS_BTN1,        KC_MS_UP,     KC_MS_BTN2,   KC_MS_ACCEL2}, \
+         {   KC_MS_LEFT,      KC_MS_DOWN,    KC_MS_RIGHT,   KC_MS_ACCEL1}, \
+         {      _______,     KC_MS_WH_UP,        _______,   KC_MS_ACCEL0}, \
+         {KC_MS_WH_LEFT,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT,        _______}
+   } */
 
 const uint16_t PROGMEM fn_actions[] = {
 
@@ -135,6 +137,8 @@ void matrix_scan_user(void) {
         }
 }
 
+report_mouse_t currentReport = {};
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         if (keycode == KC_ESC && record->event.pressed) {
                 bool queue = true;
@@ -145,6 +149,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
 
                 return queue;
+        }
+
+        switch (keycode) {
+        case MS_MOD:
+                currentReport = pointing_device_get_report();
+                if (record->event.pressed)
+                {
+                        currentReport.v = 127;
+                        currentReport.h = 127;
+                        currentReport.buttons |= MOUSE_BTN1; //this is defined in report.h
+                }
+                else
+                {
+                        currentReport.v = -127;
+                        currentReport.h = -127;
+                        currentReport.buttons &= ~MOUSE_BTN1;
+                }
+                pointing_device_set_report(currentReport);
+                break;
+        // if (record->event.pressed) {
+        //
+        //         currentReport = pointing_device_get_report();
+        //         currentReport.h = currentReport.x;
+        //         currentReport.x = 0;
+        //
+        //         currentReport.v = currentReport.y;
+        //         currentReport.y = 0;
+        //
+        //         pointing_device_set_report(currentReport);
+        // }
+
+        // break;
+        default:
+                break;
         }
 
         // switch (keycode) {
