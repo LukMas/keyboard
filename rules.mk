@@ -57,6 +57,7 @@ LEADER_ENABLE = yes
 PS2_MOUSE_ENABLE = yes
 PS2_USE_USART = yes
 TAP_DANCE_ENABLE = yes
+RGBLIGHT_ENABLE = yes
 BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = no       # Mouse keys(+4700)
 EXTRAKEY_ENABLE = yes       # Audio control and System control(+450)

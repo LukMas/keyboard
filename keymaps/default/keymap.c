@@ -15,6 +15,7 @@
  */
 #include QMK_KEYBOARD_H
 #include "pointing_device.h"
+
 // extern inline void icekeys_led_on(void);
 // extern inline void icekeys_led_off(void);
 //
@@ -88,23 +89,42 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         return MACRO_NONE;
 };
 
-void icekeys_led_on(void) {
-        DDRD |=  (1<<7); PORTD |=  (1<<7);
-}
-void icekeys_led_off(void) {
-        DDRD &=  ~(1<<7); PORTD &=  ~(1<<7);
-}
+// void icekeys_led_on(void) {
+//         DDRD |=  (1<<7); PORTD |=  (1<<7);
+// }
+// void icekeys_led_off(void) {
+//         DDRD &=  ~(1<<7); PORTD &=  ~(1<<7);
+// }
 
 void matrix_init_user(void) {
-
+        rgblight_enable();
+        rgblight_sethsv(0,0,125);
+        // rgblight_mode(3);
 }
 
 void matrix_scan_user(void) {
         if (keyboard_report->mods & MOD_BIT(KC_LSFT) ||
             ((get_oneshot_mods() & MOD_BIT(KC_LSFT)) && !has_oneshot_mods_timed_out())) {
-                icekeys_led_on();
+                rgblight_sethsv_at(0, 125, 125, 1);
+                // icekeys_led_on();
         } else {
-                icekeys_led_off();
+                rgblight_sethsv_at(0, 0, 125, 1);
+        }
+
+        if (keyboard_report->mods & MOD_BIT(KC_LALT) ||
+            ((get_oneshot_mods() & MOD_BIT(KC_LALT)) && !has_oneshot_mods_timed_out())) {
+                rgblight_sethsv_at(0, 125, 125, 2);
+                // icekeys_led_on();
+        } else {
+                rgblight_sethsv_at(0, 0, 125, 2);
+        }
+
+        if (keyboard_report->mods & MOD_BIT(KC_LCTL) ||
+            ((get_oneshot_mods() & MOD_BIT(KC_LCTL)) && !has_oneshot_mods_timed_out())) {
+                rgblight_sethsv_at(0, 125, 125, 3);
+                // icekeys_led_on();
+        } else {
+                rgblight_sethsv_at(0, 0, 125, 3);
         }
 
         LEADER_DICTIONARY() {
@@ -151,55 +171,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return queue;
         }
 
-        switch (keycode) {
-        case MS_MOD:
-                currentReport = pointing_device_get_report();
-                if (record->event.pressed)
-                {
-                        currentReport.v = 127;
-                        currentReport.h = 127;
-                        currentReport.buttons |= MOUSE_BTN1; //this is defined in report.h
-                }
-                else
-                {
-                        currentReport.v = -127;
-                        currentReport.h = -127;
-                        currentReport.buttons &= ~MOUSE_BTN1;
-                }
-                pointing_device_set_report(currentReport);
-                break;
-        // if (record->event.pressed) {
-        //
-        //         currentReport = pointing_device_get_report();
-        //         currentReport.h = currentReport.x;
-        //         currentReport.x = 0;
-        //
-        //         currentReport.v = currentReport.y;
-        //         currentReport.y = 0;
-        //
-        //         pointing_device_set_report(currentReport);
-        // }
-
-        // break;
-        default:
-                break;
-        }
-
-        // switch (keycode) {
-        // case QWERTY:
-        //         if (record->event.pressed) {
-        //                 print("mode just switched to qwerty and this is a huge string\n");
-        //                 set_single_persistent_default_layer(_QWERTY);
-        //         }
-        //         return false;
-        //         break;
-        // case FUNCT:
-        //         if (record->event.pressed) {
-        //                 set_single_persistent_default_layer(_FUNCT);
-        //         }
-        //         return false;
-        // }
-
         return true;
 }
 
@@ -209,17 +180,20 @@ void led_set_user(uint8_t usb_led) {
 
 // Runs whenever there is a layer state change.
 uint32_t layer_state_set_user(uint32_t state) {
-        icekeys_led_off();
+        // icekeys_led_off();
 
         uint8_t layer = biton32(state);
         switch (layer) {
         case 0:
+                rgblight_sethsv_at(0, 125, 125, 6);
+                rgblight_sethsv_at(0, 0, 125, 7);
                 break;
         case 1:
-                icekeys_led_on();
+                rgblight_sethsv_at(0, 0, 125, 6);
+                rgblight_sethsv_at(0, 125, 125, 7);
                 break;
-        case 2:
-                break;
+        // case 2:
+        // break;
         default:
                 break;
         }
