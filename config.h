@@ -226,7 +226,8 @@
  #define LCD_E_PIN        1            //< pin  for Enable line
  #endif
  */
-
+ #define RGB_DI_PIN D7
+ #define RGBLED_NUM 8
 
  #ifdef PS2_USE_USART
  /* Use remote mode instead of the default stream mode (see link) */
@@ -237,8 +238,6 @@
 
  /* Some mice will need a scroll mask to be configured. The default is 0xFF. */
  // #define PS2_MOUSE_SCROLL_MASK 0x0F
-
-
  #define PS2_CLOCK_PORT  PORTD
  #define PS2_CLOCK_PIN   PIND
  #define PS2_CLOCK_DDR   DDRD

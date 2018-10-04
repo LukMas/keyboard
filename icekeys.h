@@ -17,6 +17,7 @@
 #define ICEKEYS_H
 
 #include "quantum.h"
+// #include "rgblight.h"
 
 // This a shortcut to help you visually see your layout.
 // The following is an example using the Planck MIT layout
