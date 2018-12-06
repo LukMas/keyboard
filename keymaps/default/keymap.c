@@ -187,10 +187,14 @@ uint32_t layer_state_set_user(uint32_t state) {
         case 0:
                 rgblight_sethsv_at(0, 125, 125, 6);
                 rgblight_sethsv_at(0, 0, 125, 7);
+                rgblight_sethsv_at(0, 125, 125, 14);
+                rgblight_sethsv_at(0, 0, 125, 15);
                 break;
         case 1:
                 rgblight_sethsv_at(0, 0, 125, 6);
                 rgblight_sethsv_at(0, 125, 125, 7);
+                rgblight_sethsv_at(0, 0, 125, 14);
+                rgblight_sethsv_at(0, 125, 125, 15);
                 break;
         // case 2:
         // break;

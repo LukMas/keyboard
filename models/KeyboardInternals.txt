@@ -1,4 +1,18 @@
------------------------------------------------------------------------------------------------------------LAYERS
+-----------------------------------------------------------------------------------------------------------
+PLYWOOD 
+
+4 layers of 4mm, total of 12mm 
+
+1. TOP LAYER: engraved 1.5mm to fit the metal plate
+2. MIDDLE LAYER: could be cut on one/two side/s to fit the hdmi and the USB cable
+3. BOTTOM LAYER: as the middle one
+4. BASE LAYER: where the objects will be fit, could be engraved to let space for the trackball and other objects
+
+Total heigth: 12mm (cutted frame) + 4mm (full frame)
+
+
+-----------------------------------------------------------------------------------------------------------
+LAYERS
 
 1. base, where the boards will be glued
    heigth: 2 to 3mm
