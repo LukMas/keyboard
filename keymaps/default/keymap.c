@@ -14,7 +14,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
-#include "pointing_device.h"
+#include "config.h"
+
+
+// one-shot modifier keys
+#define OSM_CTL OSM(MOD_LCTL)
+#define OSM_ALT OSM(MOD_LALT)
+#define OSM_SFT OSM(MOD_LSFT)
 
 // extern inline void icekeys_led_on(void);
 // extern inline void icekeys_led_off(void);
@@ -33,10 +39,11 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 // Other declarations would go here, separated by commas, if you have them
 };
 
-
 enum custom_layers {
         _QWERTY,
-        _FUNCT
+        _FUNC,
+        _SYMB,
+        _NAVI
 };
 
 enum custom_keys {
@@ -50,16 +57,35 @@ enum custom_keys {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_QWERTY] = { /* Base */
-                {              KC_A,         KC_B,              KC_C,        KC_ESC}, \
-                {              KC_D,         KC_E,              KC_F,    TT(_FUNCT)}, \
-                {            KC_TAB,OSM(MOD_LALT),     OSM(MOD_LCTL), OSM(MOD_LSFT)}, \
-                { TD(TD_L_BRACKETS),     KC_SPACE, TD(TD_R_BRACKETS),       KC_LEAD}
+                {           KC_ESC,    KC_Q,    KC_W,   KC_E,      KC_R,    KC_T, TD(TD_L_BRACKETS), /* MIDDLE */ TD(TD_R_BRACKETS), KC_Y,    KC_U,      KC_I,    KC_O,    KC_P,     KC_LGUI}, \
+                { LT(_NAVI,KC_TAB),    KC_A,    KC_S,   KC_D,      KC_F,    KC_G,           KC_MINS, /* MIDDLE */ KC_EQL,            KC_H,    KC_J,      KC_K,    KC_L,    KC_SCLN,  KC_LEAD}, \
+                {           KC_APP,    KC_Z,    KC_X,   KC_C,      KC_V,    KC_B,           OSM_CTL, /* MIDDLE */ OSM_ALT,           KC_N,    KC_M,      KC_COMM, KC_DOT,  KC_SLSH,  ALGR_T(KC_INS) }, \
+                {            KC_NO, KC_HOME, KC_PGUP, KC_END, TT(_FUNC),  KC_SPC,           OSM_SFT, /* MIDDLE */ KC_BSPC,           KC_ENT,  TT(_SYMB), KC_LEFT, KC_UP,   KC_RIGHT, KC_NO}, \
+                {            KC_NO,   KC_NO, KC_PGDN,  KC_NO,     KC_NO,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_NO,     KC_NO,   KC_DOWN, KC_NO,    KC_NO}
         },
-        [_FUNCT] = {
-                {   KC_1,           KC_2,          KC_3,    KC_0}, \
-                {   KC_4,           KC_5,          KC_6, _______}, \
-                {   KC_7,         MS_MOD,       _______, _______}, \
-                {XXXXXXX,      KC_BSPACE,       XXXXXXX, _______}
+
+        [_FUNC] = {
+                {           KC_ESC,   KC_NO,  KC_F10, KC_F11,    KC_F12,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_F4,     KC_F5,   KC_F6,   KC_NO,    KC_NO}, \
+                {   KC_TRANSPARENT,   KC_NO,   KC_F7,  KC_F8,     KC_F9,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_F1,     KC_F2,   KC_F3,   KC_NO,    KC_NO}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO,     KC_NO,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO,    KC_NO}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO, TT(_FUNC),   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   TT(_SYMB), KC_NO,   KC_NO,   KC_NO,    KC_NO}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO,     KC_NO,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO,    KC_NO}
+        },
+
+        [_SYMB] = {
+                {           KC_ESC,   KC_NO,   KC_NO,  KC_NO,   KC_DQUO, KC_BSLS,             KC_NO, /* MIDDLE */ KC_NO,             KC_PIPE, KC_QUOT,   KC_NO,   KC_NO,   KC_NO,    KC_NO}, \
+                {   KC_TRANSPARENT,    KC_1,    KC_2,   KC_3,      KC_4,    KC_5,             KC_NO, /* MIDDLE */ KC_NO,             KC_6,    KC_7,      KC_8,    KC_9,    KC_0,     KC_NO}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO,   KC_TILD,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_GRV,    KC_NO,   KC_NO,   KC_NO,    KC_TRANSPARENT}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO, TT(_FUNC),  KC_DEL,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   TT(_SYMB), KC_NO,   KC_NO,   KC_NO,    KC_NO}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO,     KC_NO,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO,    KC_NO}
+        },
+
+        [_NAVI] = {
+                {           KC_ESC,   KC_NO,   KC_NO,  KC_NO,     KC_NO,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO,    KC_NO}, \
+                {   KC_TRANSPARENT,   KC_NO,   KC_NO,  KC_NO,     KC_NO,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_NO,     KC_NO,   KC_NO,   KC_NO,    KC_NO}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO,   KC_TILD,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_GRV,    KC_NO,   KC_NO,   KC_NO,    KC_NO}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO, TT(_FUNC),  KC_DEL,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   TT(_SYMB), KC_WH_L, KC_WH_U, KC_WH_R,  KC_NO}, \
+                {            KC_NO,   KC_NO,   KC_NO,  KC_NO,     KC_NO,   KC_NO,             KC_NO, /* MIDDLE */ KC_NO,             KC_NO,   KC_NO,     KC_NO,   KC_WH_D, KC_NO,    KC_NO}
         }
 };
 /* , LT(_NAVI, KC_TAB)
