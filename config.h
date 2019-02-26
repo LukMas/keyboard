@@ -46,10 +46,12 @@
  * ROWS: AVR pins used for rows, top to bottom
  * DIODE_DIRECTION: COL2ROW = COL = Anode (+), ROW = Cathode (-, marked on diode)
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
- *
+ * yes
  */
-#define MATRIX_ROW_PINS { F0, F1, F4, F5, F6}
-#define MATRIX_COL_PINS { B0, B1, B2, B3, B7, D0, D1, D2, D3, C6, D7, B4, B5, B6}
+#define MATRIX_ROW_PINS {B0, B1, B2, B3, E6}
+// #define MATRIX_COL_PINS {F1, F4, F5, F6, F7, B6, B5}
+// #define MATRIX_COL_PINS {F6, F7, B6, B5, F1, F4, F5}
+#define MATRIX_COL_PINS    {B5, B6, F7, F6, F5, F4, F1, C7, C6, D3, D2, D1, D0, B7}
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL, or CUSTOM_MATRIX */
@@ -223,8 +225,8 @@
  #define LCD_RW_PORT      LCD_PORT     //< port for RW line
  #define LCD_RW_PIN       2            //< pin  for RW line
  #define LCD_E_PORT       LCD_PORT     //< port for Enable line
- #define LCD_E_PIN        1            //< pin  for Enable line
+ #define LCD_E_PIN        1            //< pin  for Enable lineyes
  #endif
  */
- #define RGB_DI_PIN F7
- #define RGBLED_NUM 16
+#define RGB_DI_PIN D5
+#define RGBLED_NUM 8
