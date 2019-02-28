@@ -73,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 {  KC_TRNS,   KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,         KC_NO, /**/ KC_NO,         KC_NO,      KC_NO,   KC_WH_U, KC_NO,   KC_NO,   RESET}, \
                 {    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,         KC_NO, /**/ KC_NO,         KC_NO,      KC_WH_L, KC_WH_D, KC_WH_R, KC_NO,   KC_NO}, \
                 {    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,         KC_NO, /**/ KC_NO,         KC_NO,      KC_NO,   KC_NO,   KC_MUTE, KC_NO,   KC_NO}, \
-                {    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,         KC_NO, /**/ KC_NO,         KC_NO,      KC_NO,   KC_MNPV, KC_VOLU, KC_MNXT, KC_MPLY}, \
+                {  KC_SLEP,   KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,         KC_NO, /**/ KC_NO,         KC_NO,      KC_NO,   KC_MPRV, KC_VOLU, KC_MNXT, KC_MPLY}, \
                 {    KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,     KC_NO,         KC_NO, /**/ KC_NO,         KC_NO,      KC_NO,   KC_NO,   KC_VOLD, KC_NO,   KC_NO}
         }
 };
