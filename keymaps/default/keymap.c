@@ -16,8 +16,6 @@
 #include QMK_KEYBOARD_H
 #include "config.h"
 
-bool isDefaultLayer = true;
-
 enum CustomLayers {
         _BASE = 0,
         _SYMB,  // symbols
@@ -39,6 +37,7 @@ enum CustomKeycodes {
         GO_R
 };
 
+int isDefaultLayer = _BASE;
 // KEYS SHORTCUTS
 #define OSM_LCTL  OSM(MOD_LCTL)
 #define OSM_LSFT  OSM(MOD_LSFT)
@@ -51,7 +50,7 @@ enum CustomKeycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
-                 NVMD_TAB,    KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,   KC_MINS, /**/ KC_EQL,   KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    NUMS_ESC, \
+                 NVMD_TAB,    KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    KC_EQL, /**/ KC_MINS,  KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    NUMS_ESC, \
                  OSM_LCTL,    KC_A,     KC_S,    KC_D,     KC_F,      KC_G,   KC_LBRC, /**/ KC_RBRC,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, OSM_LCTL, \
                  OSM_LSFT,    KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/ KC_APP,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, OSM_LSFT, \
                  OSM_LALT, KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/ KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, KC_RALT,  \
@@ -98,20 +97,20 @@ void matrix_scan_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         switch (keycode) {
+        case NUMS_ESC:  
         case KC_ESC:
                 if (record->event.pressed) {
-                        bool queue = true;
-
                         if ((get_oneshot_mods ()) && !has_oneshot_mods_timed_out ()) {
                             clear_oneshot_mods ();
-                            queue = false;
+                            
+                            return false;
                         }
-                    if (!isDefaultLayer) {
-                            reset_oneshot_layer();
-                            queue = false;
+                        
+                        if (isDefaultLayer != _BASE) {
+                            layer_off(isDefaultLayer);
+                              
+                            return false;
                         }
-
-                        return queue;
                 }
                 break;
 
@@ -258,25 +257,25 @@ uint32_t layer_state_set_user(uint32_t state) {
         uint8_t layer = biton32(state);
         switch (layer) {
         case _SYMB:
-                isDefaultLayer = false;
+                isDefaultLayer = _SYMB;
                 rgblight_setrgb_at(160, 0, 0, 0);
                 break;
         case _FUNC:
-                isDefaultLayer = false;
+                isDefaultLayer = _FUNC;
                 rgblight_setrgb_at(160, 0, 0, 1);
                 break;
         case _NUMS:
-                isDefaultLayer = false;
+                isDefaultLayer = _NUMS;
                 rgblight_setrgb_at(160, 0, 0, 2);
                 break;
         case _NVMD:
-                isDefaultLayer = false;
+                isDefaultLayer = _NVMD;
                 rgblight_setrgb_at(160, 0, 0, 3);
                 break;
         // case 2:
         // break;
         default:
-                isDefaultLayer = true;
+                isDefaultLayer = _BASE;
                 rgblight_setrgb_at(0, 0, 0, 0);
                 rgblight_setrgb_at(0, 0, 0, 1);
                 rgblight_setrgb_at(0, 0, 0, 2);
