@@ -216,37 +216,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void oneshot_mods_changed_kb(uint8_t mods) {
         if (mods & MOD_MASK_SHIFT) {
-                rgblight_setrgb_at(80, 0, 0, 6);
+                rgblight_setrgb_at(50, 0, 0, 3);
         }
         if (mods & MOD_MASK_CTRL) {
-                rgblight_setrgb_at(80, 0, 0, 7);
+                rgblight_setrgb_at(0, 180, 0, 2);
         }
         if (mods & MOD_MASK_ALT) {
-                rgblight_setrgb_at(80, 0, 0, 5);
+                rgblight_setrgb_at(0, 180, 0, 4);
         }
 
         if (!mods) {
-                rgblight_setrgb_at(0, 0, 0, 7);
-                rgblight_setrgb_at(0, 0, 0, 6);
-                rgblight_setrgb_at(0, 0, 0, 5);
+                rgblight_setrgb_at(0, 0, 0, 2);
+                rgblight_setrgb_at(0, 0, 0, 3);
+                rgblight_setrgb_at(0, 0, 0, 4);
         }
 }
 
 void oneshot_locked_mods_changed_kb(uint8_t mods) {
         if (mods & MOD_MASK_SHIFT) {
-                rgblight_setrgb_at(160, 0, 0, 6);
+                rgblight_setrgb_at(120, 0, 0, 3);
         }
         if (mods & MOD_MASK_CTRL) {
-                rgblight_setrgb_at(160, 0, 0, 7);
+                rgblight_setrgb_at(0, 255, 0, 2);
         }
         if (mods & MOD_MASK_ALT) {
-                rgblight_setrgb_at(160, 0, 0, 5);
+                rgblight_setrgb_at(0, 255, 0, 4);
         }
 
         if (!mods) {
-                rgblight_setrgb_at(0, 0, 0, 7);
-                rgblight_setrgb_at(0, 0, 0, 6);
-                rgblight_setrgb_at(0, 0, 0, 5);
+                rgblight_setrgb_at(0, 0, 0, 2);
+                rgblight_setrgb_at(0, 0, 0, 3);
+                rgblight_setrgb_at(0, 0, 0, 4);
         }
 }
 
@@ -258,19 +258,19 @@ uint32_t layer_state_set_user(uint32_t state) {
         switch (layer) {
         case _SYMB:
                 isDefaultLayer = _SYMB;
-                rgblight_setrgb_at(160, 0, 0, 0);
+                rgblight_setrgb_at(50, 0, 0, 1);
                 break;
         case _FUNC:
                 isDefaultLayer = _FUNC;
-                rgblight_setrgb_at(160, 0, 0, 1);
+                rgblight_setrgb_at(50, 0, 0, 5);
                 break;
         case _NUMS:
                 isDefaultLayer = _NUMS;
-                rgblight_setrgb_at(160, 0, 0, 2);
+                rgblight_setrgb_at(0, 255, 0, 0);
                 break;
         case _NVMD:
                 isDefaultLayer = _NVMD;
-                rgblight_setrgb_at(160, 0, 0, 3);
+                rgblight_setrgb_at(0, 255, 0, 6);
                 break;
         // case 2:
         // break;
@@ -278,8 +278,8 @@ uint32_t layer_state_set_user(uint32_t state) {
                 isDefaultLayer = _BASE;
                 rgblight_setrgb_at(0, 0, 0, 0);
                 rgblight_setrgb_at(0, 0, 0, 1);
-                rgblight_setrgb_at(0, 0, 0, 2);
-                rgblight_setrgb_at(0, 0, 0, 3);
+                rgblight_setrgb_at(0, 0, 0, 5);
+                rgblight_setrgb_at(0, 0, 0, 6);
                 break;
         }
 
