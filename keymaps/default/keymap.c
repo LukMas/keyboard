@@ -216,13 +216,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void oneshot_mods_changed_kb(uint8_t mods) {
         if (mods & MOD_MASK_SHIFT) {
-                rgblight_setrgb_at(50, 0, 0, 3);
+                rgblight_setrgb_at(40, 0, 0, 3);
         }
         if (mods & MOD_MASK_CTRL) {
-                rgblight_setrgb_at(0, 180, 0, 2);
+                rgblight_setrgb_at(0, 140, 0, 2);
         }
         if (mods & MOD_MASK_ALT) {
-                rgblight_setrgb_at(0, 180, 0, 4);
+                rgblight_setrgb_at(0, 140, 0, 4);
         }
 
         if (!mods) {
@@ -234,7 +234,7 @@ void oneshot_mods_changed_kb(uint8_t mods) {
 
 void oneshot_locked_mods_changed_kb(uint8_t mods) {
         if (mods & MOD_MASK_SHIFT) {
-                rgblight_setrgb_at(120, 0, 0, 3);
+                rgblight_setrgb_at(110, 0, 0, 3);
         }
         if (mods & MOD_MASK_CTRL) {
                 rgblight_setrgb_at(0, 255, 0, 2);
@@ -258,11 +258,11 @@ uint32_t layer_state_set_user(uint32_t state) {
         switch (layer) {
         case _SYMB:
                 isDefaultLayer = _SYMB;
-                rgblight_setrgb_at(50, 0, 0, 1);
+                rgblight_setrgb_at(40, 0, 0, 1);
                 break;
         case _FUNC:
                 isDefaultLayer = _FUNC;
-                rgblight_setrgb_at(50, 0, 0, 5);
+                rgblight_setrgb_at(40, 0, 0, 5);
                 break;
         case _NUMS:
                 isDefaultLayer = _NUMS;
