@@ -25,8 +25,8 @@
 #define PRODUCT_ID      0x0000
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    Luca Masera
-#define PRODUCT         icekeys
-#define DESCRIPTION     IceKeys keyboard
+#define PRODUCT         Split58
+#define DESCRIPTION     Split58 keyboard
 
 
 // #undef LEADER_TIMEOUT
@@ -59,8 +59,8 @@
 
 //
 #define TAPPING_TERM 200
-#define ONESHOT_TAP_TOGGLE 2  /* Tapping this number of times holds the key until tapped this number of times again. */
-#define ONESHOT_TIMEOUT 4000
+//#define ONESHOT_TAP_TOGGLE 2  /* Tapping this number of times holds the key until tapped this number of times again. */
+//#define ONESHOT_TIMEOUT 4000
 #define TAPPING_TOGGLE 2
 
 // #define BACKLIGHT_PIN B7

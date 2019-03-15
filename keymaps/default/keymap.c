@@ -26,6 +26,12 @@ enum CustomLayers {
 
 enum CustomKeycodes {
         TWO_OR = SAFE_RANGE,
+        L_BRK_SHIFT,
+        R_BRK_SHIFT,
+        L_PRT_CTRL,
+        R_PRL_CLTR,
+        L_SQPR_ALT,
+        R_SQPR_ALT,
         TWO_AND,
         SG_QUOTE,
         DB_QUOTE,
@@ -39,36 +45,36 @@ enum CustomKeycodes {
 
 int isDefaultLayer = _BASE;
 // KEYS SHORTCUTS
-#define OSM_LCTL  OSM(MOD_LCTL)
-#define OSM_LSFT  OSM(MOD_LSFT)
-#define OSM_LALT  OSM(MOD_LALT)
-#define OSM_LCSA  OSM(MOD_LCTL | MOD_LSFT | MOD_LALT)
-#define TO_FUNC   OSL(_FUNC)
-#define TO_SYMB   OSL(_SYMB)
+//#define OSM_LCTL  OSM(MOD_LCTL)
+//#define OSM_LSFT  OSM(MOD_LSFT)
+//#define OSM_LALT  OSM(MOD_LALT)
+//#define OSM_LCSA  OSM(MOD_LCTL | MOD_LSFT | MOD_LALT)
+#define TO_FUNC   TT(_FUNC)
+#define TO_SYMB   TT(_SYMB)
 #define NVMD_TAB  LT(_NVMD, KC_TAB)
 #define NUMS_ESC  LT(_NUMS, KC_ESC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
-                 NVMD_TAB,    KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    KC_EQL, /**/ KC_MINS,  KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    NUMS_ESC, \
-                 OSM_LCTL,    KC_A,     KC_S,    KC_D,     KC_F,      KC_G,   KC_LBRC, /**/ KC_RBRC,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, OSM_LCTL, \
-                 OSM_LSFT,    KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/ KC_APP,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, OSM_LSFT, \
-                 OSM_LALT, KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/ KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, KC_RALT,  \
-                                     KC_PGDN,                                          /**/                                           KC_DOWN
+                 NVMD_TAB,      KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    KC_EQL, /**/ KC_MINS,  KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    NUMS_ESC, \
+                 L_PRT_CTRL,    KC_A,     KC_S,    KC_D,     KC_F,      KC_G,   KC_LBRC, /**/ KC_RBRC,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, R_PRL_CLTR, \
+                 L_BRK_SHIFT,   KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/ KC_APP,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, R_BRK_SHIFT, \
+                 L_SQPR_ALT, KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/ KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, R_SQPR_ALT,  \
+                                       KC_PGDN,                                          /**/                                           KC_DOWN
         ),
-        [_SYMB] = LAYOUT(
-                   KC_TAB,   KC_NO, SG_QUOTE,  KC_GRV,   TWO_OR,   KC_PIPE,     KC_NO, /**/ KC_NO,    KC_AMPR,    TWO_AND,  KC_QUOT,  DB_QUOTE, KC_NO,   KC_ESC,   \
-                 OSM_LCTL,    KC_1,     KC_2,    KC_3,     KC_4,      KC_5,   KC_LPRN, /**/ KC_RPRN,  KC_6,       KC_7,     KC_8,     KC_9,     KC_0,    OSM_LCTL, \
-                 OSM_LSFT,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,  SG_QUOTE, /**/ KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   OSM_LSFT, \
-                 OSM_LALT, KC_TRNS,  KC_TRNS, KC_TRNS, OSM_LALT,  OSM_LSFT,     KC_NO, /**/ KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_BSLS, KC_RALT,  \
-                                     KC_TRNS,                                          /**/                                           KC_TRNS
+        [_SYMB] = LAYOUT(   
+                 KC_TAB,        KC_NO, SG_QUOTE,  KC_GRV,     TWO_OR,      KC_PIPE,     KC_NO, /**/ KC_NO,    KC_AMPR,    TWO_AND,  KC_QUOT,  DB_QUOTE, KC_NO,   KC_ESC,   \
+                 L_PRT_CTRL,     KC_1,     KC_2,    KC_3,       KC_4,         KC_5,   KC_LPRN, /**/ KC_RPRN,  KC_6,       KC_7,     KC_8,     KC_9,     KC_0,    R_PRL_CLTR, \
+                 L_BRK_SHIFT,   KC_NO,    KC_NO,   KC_NO,      KC_NO,        KC_NO,  SG_QUOTE, /**/ KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   R_BRK_SHIFT, \
+                 L_SQPR_ALT,  KC_TRNS,  KC_TRNS, KC_TRNS,    KC_LALT,      KC_LSFT,     KC_NO, /**/ KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_BSLS, R_SQPR_ALT,  \
+                                        KC_TRNS,                                               /**/                                           KC_TRNS
         ),
         [_FUNC] = LAYOUT(
-                   KC_TAB,   KC_NO,   KC_F10,   KC_F11,  KC_F12,     KC_NO,    KC_APP, /**/ KC_LGUI,  KC_NO,      KC_F4,    KC_F5,    KC_F6,    KC_NO,   KC_ESC,   \
-                 OSM_LCTL,   KC_NO,    KC_F7,   KC_F8,    KC_F9,     KC_NO,     KC_NO, /**/ KC_NO,    KC_NO,      KC_F1,    KC_F2,    KC_F3,    KC_NO,   OSM_LCTL, \
-                 OSM_LSFT,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,     KC_NO, /**/ KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   OSM_LSFT, \
-                 OSM_LALT, KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS,     KC_NO,     KC_NO, /**/ KC_DEL,   OSM_LSFT,   OSM_LALT, KC_TRNS,  KC_TRNS,  KC_TRNS, KC_RALT,  \
-                                     KC_TRNS,                                          /**/                                           KC_TRNS
+                 KC_TAB,        KC_NO,   KC_F10,  KC_F11,   KC_F12,     KC_NO,    KC_APP, /**/ KC_LGUI,  KC_NO,      KC_F4,      KC_F5,    KC_F6,    KC_NO,     KC_ESC,   \
+                 L_PRT_CTRL,    KC_NO,    KC_F7,   KC_F8,    KC_F9,     KC_NO,     KC_NO, /**/ KC_NO,    KC_NO,      KC_F1,      KC_F2,    KC_F3,    KC_NO,     R_PRL_CLTR, \
+                 L_BRK_SHIFT,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,     KC_NO, /**/ KC_NO,    KC_NO,      KC_NO,      KC_NO,    KC_NO,    KC_NO,     R_BRK_SHIFT, \
+                 L_SQPR_ALT,  KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS,     KC_NO,     KC_NO, /**/ KC_DEL,   KC_LSFT,  KC_LALT,    KC_TRNS,  KC_TRNS,    KC_TRNS,   R_SQPR_ALT,  \
+                                        KC_TRNS,                                          /**/                                           KC_TRNS
         ),
         [_NUMS] = LAYOUT(
                     KC_NO,   KC_NO,     KC_7,    KC_8,     KC_9,   KC_MINS,    KC_NO, /**/ KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_TRNS,  \
@@ -96,22 +102,110 @@ void matrix_scan_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+        static uint16_t my_lCtrl_timer;
+        static uint16_t my_rCtrl_timer;
+        static uint16_t my_lShift_timer;
+        static uint16_t my_rShift_timer;
+        static uint16_t my_lAlt_timer;
+        static uint16_t my_rAlt_timer;
+        
+        
         switch (keycode) {
         case NUMS_ESC:  
         case KC_ESC:
                 if (record->event.pressed) {
+                /*
                         if ((get_oneshot_mods ()) && !has_oneshot_mods_timed_out ()) {
                             clear_oneshot_mods ();
                             
                             return false;
                         }
-                        
+                 */      
                         if (isDefaultLayer != _BASE) {
                             layer_off(isDefaultLayer);
                               
                             return false;
                         }
                 }
+                break;
+                
+      case L_BRK_SHIFT:
+                if(record->event.pressed) {
+                        my_lShift_timer = timer_read();
+                        register_code(KC_LSFT); // Change the key to be held here
+                } else {
+                        unregister_code(KC_LSFT); // Change the key that was held here, too!
+                        if (timer_elapsed(my_lShift_timer) < TAPPING_TERM) {
+                                SEND_STRING("{"); // Change the character(s) to be sent on tap here
+                        }
+                }
+                return false; // We handled this keypress
+                break;
+
+      case R_BRK_SHIFT:
+                if(record->event.pressed) {
+                        my_rShift_timer = timer_read();
+                        register_code(KC_RSFT); // Change the key to be held here
+                } else {
+                        unregister_code(KC_RSFT); // Change the key that was held here, too!
+                        if (timer_elapsed(my_rShift_timer) < TAPPING_TERM) {
+                                SEND_STRING("}"); // Change the character(s) to be sent on tap here
+                        }
+                }
+                return false; // We handled this keypress
+                break;
+
+      case L_PRT_CTRL:
+                if(record->event.pressed) {
+                        my_lCtrl_timer = timer_read();
+                        register_code(KC_LCTL); // Change the key to be held here
+                } else {
+                        unregister_code(KC_LCTL); // Change the key that was held here, too!
+                        if (timer_elapsed(my_lCtrl_timer) < TAPPING_TERM) {
+                                SEND_STRING("("); // Change the character(s) to be sent on tap here
+                        }
+                }
+                return false; // We handled this keypress
+                break;
+
+      case R_PRL_CLTR:
+                if(record->event.pressed) {
+                        my_rCtrl_timer = timer_read();
+                        register_code(KC_RCTL); // Change the key to be held here
+                } else {
+                        unregister_code(KC_RCTL); // Change the key that was held here, too!
+                        if (timer_elapsed(my_rCtrl_timer) < TAPPING_TERM) {
+                                SEND_STRING(")"); // Change the character(s) to be sent on tap here
+                        }
+                }
+                return false; // We handled this keypress
+                break;
+
+      case L_SQPR_ALT:
+                if(record->event.pressed) {
+                        my_lAlt_timer = timer_read();
+                        register_code(KC_LALT); // Change the key to be held here
+                } else {
+                        unregister_code(KC_LALT); // Change the key that was held here, too!
+                        if (timer_elapsed(my_lAlt_timer) < TAPPING_TERM) {
+                                SEND_STRING("["); // Change the character(s) to be sent on tap here
+                        }
+                }
+                return false; // We handled this keypress
+                break;
+
+      case R_SQPR_ALT:
+                if(record->event.pressed) {
+                        my_rAlt_timer = timer_read();
+                        register_code(KC_ALGR); // Change the key to be held here
+                } else {
+                        unregister_code(KC_ALGR); // Change the key that was held here, too!
+                        if (timer_elapsed(my_rAlt_timer) < TAPPING_TERM) {
+                                SEND_STRING("]"); // Change the character(s) to be sent on tap here
+                        }
+                }
+                return false; // We handled this keypress
                 break;
 
         case TWO_AND:
