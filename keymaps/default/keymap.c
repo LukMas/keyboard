@@ -44,11 +44,7 @@ enum CustomKeycodes {
 };
 
 int isDefaultLayer = _BASE;
-// KEYS SHORTCUTS
-//#define OSM_LCTL  OSM(MOD_LCTL)
-//#define OSM_LSFT  OSM(MOD_LSFT)
-//#define OSM_LALT  OSM(MOD_LALT)
-//#define OSM_LCSA  OSM(MOD_LCTL | MOD_LSFT | MOD_LALT)
+
 #define TO_FUNC   TT(_FUNC)
 #define TO_SYMB   TT(_SYMB)
 #define NVMD_TAB  LT(_NVMD, KC_TAB)
@@ -56,39 +52,64 @@ int isDefaultLayer = _BASE;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
-                 NVMD_TAB,      KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    KC_EQL, /**/ KC_MINS,  KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    NUMS_ESC, \
-                 L_PRT_CTRL,    KC_A,     KC_S,    KC_D,     KC_F,      KC_G,   KC_LBRC, /**/ KC_RBRC,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, R_PRL_CLTR, \
-                 L_BRK_SHIFT,   KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/ KC_APP,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, R_BRK_SHIFT, \
-                 L_SQPR_ALT, KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/ KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, R_SQPR_ALT,  \
-                                       KC_PGDN,                                          /**/                                           KC_DOWN
+                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,     KC_NO, /**/  \
+                  L_PRT_CTRL,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL, /**/  \
+                 L_BRK_SHIFT,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/  \
+                  L_SQPR_ALT,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/  \
+                                         KC_PGDN,                                          /**/  \
+                                                                    KC_DEL,   KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    NUMS_ESC,    \
+                                                                    KC_MINS,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, R_PRL_CLTR,  \
+                                                                    KC_APP,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, R_BRK_SHIFT, \
+                                                                    KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, R_SQPR_ALT,  \
+                                                                                                              KC_DOWN
         ),
-        [_SYMB] = LAYOUT(   
-                 KC_TAB,        KC_NO, SG_QUOTE,  KC_GRV,     TWO_OR,      KC_PIPE,     KC_NO, /**/ KC_NO,    KC_AMPR,    TWO_AND,  KC_QUOT,  DB_QUOTE, KC_NO,   KC_ESC,   \
-                 L_PRT_CTRL,     KC_1,     KC_2,    KC_3,       KC_4,         KC_5,   KC_LPRN, /**/ KC_RPRN,  KC_6,       KC_7,     KC_8,     KC_9,     KC_0,    R_PRL_CLTR, \
-                 L_BRK_SHIFT,   KC_NO,    KC_NO,   KC_NO,      KC_NO,        KC_NO,  SG_QUOTE, /**/ KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   R_BRK_SHIFT, \
-                 L_SQPR_ALT,  KC_TRNS,  KC_TRNS, KC_TRNS,    KC_LALT,      KC_LSFT,     KC_NO, /**/ KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_BSLS, R_SQPR_ALT,  \
-                                        KC_TRNS,                                               /**/                                           KC_TRNS
+        [_SYMB] = LAYOUT(
+                      KC_TAB,    KC_NO,  SG_QUOTE,   KC_GRV,   TWO_OR,  KC_PIPE,     KC_NO, /**/  \
+                     KC_LCTL,     KC_1,      KC_2,     KC_3,     KC_4,     KC_5,     KC_NO, /**/  \
+                     KC_LSFT,    KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_NO,     KC_NO, /**/  \
+                     KC_LALT,  KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_LALT,  KC_LSFT,     KC_NO, /**/  \
+                                          KC_TRNS,                                          /**/  \
+                                                                    KC_NO,    KC_AMPR,    TWO_AND,  KC_QUOT,  DB_QUOTE, KC_NO,   KC_ESC,      \
+                                                                    KC_NO,    KC_6,       KC_7,     KC_8,     KC_9,     KC_0,    KC_RCTL,     \
+                                                                    KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_RSFT,     \
+                                                                    KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_BSLS, KC_LALT,     \
+                                                                                                              KC_TRNS
         ),
         [_FUNC] = LAYOUT(
-                 KC_TAB,        KC_NO,   KC_F10,  KC_F11,   KC_F12,     KC_NO,    KC_APP, /**/ KC_LGUI,  KC_NO,      KC_F4,      KC_F5,    KC_F6,    KC_NO,     KC_ESC,   \
-                 L_PRT_CTRL,    KC_NO,    KC_F7,   KC_F8,    KC_F9,     KC_NO,     KC_NO, /**/ KC_NO,    KC_NO,      KC_F1,      KC_F2,    KC_F3,    KC_NO,     R_PRL_CLTR, \
-                 L_BRK_SHIFT,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,     KC_NO, /**/ KC_NO,    KC_NO,      KC_NO,      KC_NO,    KC_NO,    KC_NO,     R_BRK_SHIFT, \
-                 L_SQPR_ALT,  KC_TRNS,  KC_TRNS, KC_TRNS,  KC_TRNS,     KC_NO,     KC_NO, /**/ KC_DEL,   KC_LSFT,  KC_LALT,    KC_TRNS,  KC_TRNS,    KC_TRNS,   R_SQPR_ALT,  \
-                                        KC_TRNS,                                          /**/                                           KC_TRNS
+                      KC_TAB,     KC_NO,   KC_F10,   KC_F11,   KC_F12,     KC_NO,     KC_NO, /**/  \
+                     KC_LCTL,     KC_NO,    KC_F7,    KC_F8,    KC_F9,     KC_NO,     KC_NO, /**/  \
+                     KC_LSFT,     KC_NO,    KC_NO,    KC_NO,    KC_NO,     KC_NO,     KC_NO, /**/  \
+                     KC_LALT,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,     KC_NO,     KC_NO, /**/  \
+                                          KC_TRNS,                                           /**/  \
+                                                                    KC_NO,    KC_NO,      KC_F4,      KC_F5,    KC_F6,    KC_NO,     KC_ESC,      \
+                                                                    KC_NO,    KC_NO,      KC_F1,      KC_F2,    KC_F3,    KC_NO,     KC_RCTL,     \
+                                                                    KC_NO,    KC_NO,      KC_NO,      KC_NO,    KC_NO,    KC_NO,     KC_RSFT,     \
+                                                                    KC_NO,    KC_LSFT,    KC_LALT,    KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_ALGR,     \
+                                                                                                                KC_TRNS
         ),
         [_NUMS] = LAYOUT(
-                    KC_NO,   KC_NO,     KC_7,    KC_8,     KC_9,   KC_MINS,    KC_NO, /**/ KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_TRNS,  \
-                    KC_NO,   KC_NO,     KC_4,    KC_5,     KC_6,    KC_DOT,    KC_NO, /**/ KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,    \
-                    KC_NO,   KC_NO,     KC_1,    KC_2,     KC_3,   KC_SLSH,    KC_NO, /**/ KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,    \
-                    KC_NO,   KC_NO,     KC_0,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,    \
-                                       KC_NO,                                         /**/                                            KC_NO
+                    KC_NO,   KC_NO,     KC_7,    KC_8,     KC_9,   KC_MINS,    KC_NO, /**/  \
+                    KC_NO,   KC_NO,     KC_4,    KC_5,     KC_6,    KC_DOT,    KC_NO, /**/  \
+                    KC_NO,   KC_NO,     KC_1,    KC_2,     KC_3,   KC_SLSH,    KC_NO, /**/  \
+                    KC_NO,   KC_NO,     KC_0,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/  \
+                                       KC_NO,                                         /**/  \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_TRNS, \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,   \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,   \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,   \
+                                                                                                               KC_NO
         ),
         [_NVMD] = LAYOUT(
-                  KC_TRNS,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ KC_NO,     KC_NO,      KC_NO,    KC_WH_U,  KC_NO,    KC_NO,   RESET,    \
-                    KC_NO,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ KC_NO,     KC_NO,      KC_WH_L,  KC_WH_D,  KC_WH_R,  KC_NO,   KC_NO,    \
-                  KC_WAKE,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_MUTE,  KC_NO,   KC_NO,    \
-                  KC_SLEP,   KC_NO,    KC_NO,   KC_NO,     W_LS,      W_LD,     GO_L, /**/  GO_R,     W_RD,       W_RS,     KC_MPRV,  KC_VOLU,  KC_MNXT, KC_MPLY,  \
-                                       KC_NO,                                         /**/                                            KC_VOLD
+                  KC_TRNS,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ \
+                    KC_NO,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ \
+                  KC_WAKE,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ \
+                  KC_SLEP,   KC_NO,    KC_NO,   KC_NO,     W_LS,      W_LD,     GO_L, /**/ \
+                                       KC_NO,                                         /**/ \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_WH_U,  KC_NO,    KC_NO,   RESET,   \
+                                                                    KC_NO,     KC_NO,      KC_WH_L,  KC_WH_D,  KC_WH_R,  KC_NO,   KC_NO,   \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_MUTE,  KC_NO,   KC_NO,   \
+                                                                    GO_R,      W_RD,       W_RS,     KC_MPRV,  KC_VOLU,  KC_MNXT, KC_MPLY, \
+                                                                                                               KC_VOLD
         )
 };
 
@@ -109,28 +130,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         static uint16_t my_rShift_timer;
         static uint16_t my_lAlt_timer;
         static uint16_t my_rAlt_timer;
-        
-        
+
+
         switch (keycode) {
-        case NUMS_ESC:  
-        case KC_ESC:
-                if (record->event.pressed) {
-                /*
-                        if ((get_oneshot_mods ()) && !has_oneshot_mods_timed_out ()) {
-                            clear_oneshot_mods ();
-                            
-                            return false;
-                        }
-                 */      
-                        if (isDefaultLayer != _BASE) {
-                            layer_off(isDefaultLayer);
-                              
-                            return false;
-                        }
-                }
-                break;
-                
-      case L_BRK_SHIFT:
+        case L_BRK_SHIFT:
                 if(record->event.pressed) {
                         my_lShift_timer = timer_read();
                         register_code(KC_LSFT); // Change the key to be held here
@@ -143,7 +146,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false; // We handled this keypress
                 break;
 
-      case R_BRK_SHIFT:
+        case R_BRK_SHIFT:
                 if(record->event.pressed) {
                         my_rShift_timer = timer_read();
                         register_code(KC_RSFT); // Change the key to be held here
@@ -156,7 +159,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false; // We handled this keypress
                 break;
 
-      case L_PRT_CTRL:
+        case L_PRT_CTRL:
                 if(record->event.pressed) {
                         my_lCtrl_timer = timer_read();
                         register_code(KC_LCTL); // Change the key to be held here
@@ -169,7 +172,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false; // We handled this keypress
                 break;
 
-      case R_PRL_CLTR:
+        case R_PRL_CLTR:
                 if(record->event.pressed) {
                         my_rCtrl_timer = timer_read();
                         register_code(KC_RCTL); // Change the key to be held here
@@ -182,7 +185,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false; // We handled this keypress
                 break;
 
-      case L_SQPR_ALT:
+        case L_SQPR_ALT:
                 if(record->event.pressed) {
                         my_lAlt_timer = timer_read();
                         register_code(KC_LALT); // Change the key to be held here
@@ -195,7 +198,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false; // We handled this keypress
                 break;
 
-      case R_SQPR_ALT:
+        case R_SQPR_ALT:
                 if(record->event.pressed) {
                         my_rAlt_timer = timer_read();
                         register_code(KC_ALGR); // Change the key to be held here
