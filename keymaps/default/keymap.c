@@ -436,19 +436,19 @@ uint32_t layer_state_set_user(uint32_t state) {
         switch (layer) {
         case _SYMB:
                 isDefaultLayer = _SYMB;
-                rgblight_setrgb_at(80, 0, 0, 1);
+                rgblight_setrgb_at(130, 0, 0, 1);
                 break;
         case _FUNC:
                 isDefaultLayer = _FUNC;
-                rgblight_setrgb_at(80, 0, 0, 5);
+                rgblight_setrgb_at(130, 0, 0, 5);
                 break;
         case _NUMS:
                 isDefaultLayer = _NUMS;
-                rgblight_setrgb_at(10, 255, 10, 0);
+                rgblight_setrgb_at(130, 255, 130, 0);
                 break;
         case _NVMD:
                 isDefaultLayer = _NVMD;
-                rgblight_setrgb_at(10, 255, 10, 6);
+                rgblight_setrgb_at(130, 255, 130, 6);
                 break;
         // case 2:
         // break;
