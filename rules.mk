@@ -51,7 +51,7 @@ BOOTLOADER = halfkay
 # Build Options
 #   change yes to no to disable
 #
-LEADER_ENABLE = no
+LEADER_ENABLE = yes
 TAP_DANCE_ENABLE = no
 RGBLIGHT_ENABLE = yes
 RGBLIGHT_ENABLE = yes

@@ -43,7 +43,7 @@ enum CustomKeycodes {
         GO_R
 };
 
-int isDefaultLayer = _BASE;
+uint8_t isDefaultLayer = _BASE;
 
 #define TO_FUNC   TT(_FUNC)
 #define TO_SYMB   TT(_SYMB)
@@ -52,7 +52,7 @@ int isDefaultLayer = _BASE;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
-                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,     KC_NO, /**/  \
+                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,   KC_LEAD, /**/  \
                   L_PRT_CTRL,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL, /**/  \
                  L_BRK_SHIFT,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/  \
                   L_SQPR_ALT,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/  \
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                     KC_NO,    KC_AMPR,    TWO_AND,  KC_QUOT,  DB_QUOTE, KC_NO,   KC_ESC,      \
                                                                     KC_NO,    KC_6,       KC_7,     KC_8,     KC_9,     KC_0,    KC_RCTL,     \
                                                                     KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_RSFT,     \
-                                                                    KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_BSLS, KC_LALT,     \
+                                                                    KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_BSLS, KC_ALGR,     \
                                                                                                               KC_TRNS
         ),
         [_FUNC] = LAYOUT(
@@ -113,13 +113,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         )
 };
 
+
+LEADER_EXTERNS();
+
+uint8_t keyPresses[6] = {0,0,0,0,0,0};
+
+void leader_start(void) {
+                rgblight_setrgb_at(130, 130, 130, 4);
+}
+
+void leader_end(void) {
+                rgblight_setrgb_at(0, 0, 0, 4);
+}
+
+
 void matrix_init_user(void) {
         rgblight_enable_noeeprom();
 }
 
 
-
 void matrix_scan_user(void) {
+        LEADER_DICTIONARY() {
+                leading = false;
+                leader_end();
+                
+                SEQ_FOUR_KEYS(KC_C, KC_S, KC_A, KC_G) {                
+                      SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("g"))));
+                }
+                
+                SEQ_FOUR_KEYS(KC_C, KC_S, KC_A, KC_T) {
+                      SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("t"))));
+                }
+        }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -133,163 +158,149 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 
         switch (keycode) {
-        case L_BRK_SHIFT:
-                if(record->event.pressed) {                
-                        my_lShift_timer = timer_read();
-                        register_mods(MOD_BIT(KC_LSFT));
-
-                } else {
-                        if (timer_elapsed(my_lShift_timer) < TAPPING_TERM) {
-                                  register_code(KC_LBRC);
-                                  unregister_code(KC_LBRC);
-                        }
-                        
-                        unregister_mods(MOD_BIT(KC_LSFT));
-                }
-                return false; 
-                // We handled this keypress
-//                       my_lShift_timer = timer_read();
-//                       register_code(KC_LSFT); // Change the key to be held here
-//                } else {
-//                        unregister_code(KC_LSFT); // Change the key that was held here, too!
-//                        if (timer_elapsed(my_lShift_timer) < TAPPING_TERM) {
-//                                SEND_STRING("{"); // Change the character(s) to be sent on tap here
-//                        }
-//                }
-//                return false; // We handled this keypress
-                break;
-
-        case R_BRK_SHIFT:
-                if(record->event.pressed) {
-                        my_rShift_timer = timer_read();
-                        register_mods(MOD_BIT(KC_RSFT));
-
-                } else {
-                        if (timer_elapsed(my_rShift_timer) < TAPPING_TERM) {
-                                  register_code(KC_RBRC);
-                                  unregister_code(KC_RBRC);
-                        }
-                        
-                        unregister_mods(MOD_BIT(KC_RSFT));
-                }
-                return false; // We handled this keypress
-//                        my_rShift_timer = timer_read();
-//                        register_code(KC_RSFT); // Change the key to be held here
-//                } else {
-//                        unregister_code(KC_RSFT); // Change the key that was held here, too!
-//                        if (timer_elapsed(my_rShift_timer) < TAPPING_TERM) {
-//                                SEND_STRING("}"); // Change the character(s) to be sent on tap here
-//                        }
-//                }
-//                return false; // We handled this keypress
-                break;
 
         case L_PRT_CTRL:
                 if(record->event.pressed) {                
+//                        keyPresses[0]++;
+                                  
                         my_lCtrl_timer = timer_read();
                         register_mods(MOD_BIT(KC_LCTL));
 
                 } else {
                         unregister_mods(MOD_BIT(KC_LCTL));
                         
-                        if (timer_elapsed(my_lCtrl_timer) < TAPPING_TERM) {
-                                  register_mods(MOD_BIT(KC_LSFT));
-                                  register_code(KC_9);
-                                  unregister_code(KC_9);
-                                  unregister_mods(MOD_BIT(KC_LSFT));
+                        if (timer_elapsed(my_lCtrl_timer) < SPACE_CADET_TERM) {
+//                                  if (keyPresses[0] == 2){
+//                                        keyPresses[0] = 0;
+                                        register_mods(MOD_BIT(KC_LSFT));
+                                        register_code(KC_9);
+                                        unregister_code(KC_9);
+                                        unregister_mods(MOD_BIT(KC_LSFT));
+//                                  }
+//                        } else {
+//                              keyPresses[0] = 0;
                         }
                 }
                 return false;
-//                if(record->event.pressed) {
-//                        my_lCtrl_timer = timer_read();
-//                        register_code(KC_LCTL); // Change the key to be held here
-//                } else {
-//                        unregister_code(KC_LCTL); // Change the key that was held here, too!
-//                        if (timer_elapsed(my_lCtrl_timer) < TAPPING_TERM) {
-//                                SEND_STRING("("); // Change the character(s) to be sent on tap here
-//                        }
-//                }
-//                return false; // We handled this keypress
                 break;
 
         case R_PRL_CLTR:
-                if(record->event.pressed) {                
+                if(record->event.pressed) {             
+//                        keyPresses[1]++;
+                                     
                         my_rCtrl_timer = timer_read();
                         register_mods(MOD_BIT(KC_RCTL));
 
                 } else {
                         unregister_mods(MOD_BIT(KC_RCTL));
                         
-                        if (timer_elapsed(my_rCtrl_timer) < TAPPING_TERM) {
-                                  register_mods(MOD_BIT(KC_RSFT));
-                                  register_code(KC_0);
-                                  unregister_code(KC_0);
-                                  unregister_mods(MOD_BIT(KC_RSFT));
+                        if (timer_elapsed(my_rCtrl_timer) < SPACE_CADET_TERM) {
+//                                  if (keyPresses[1] == 2){
+//                                        keyPresses[1] = 0;
+                                        register_mods(MOD_BIT(KC_RSFT));
+                                        register_code(KC_0);
+                                        unregister_code(KC_0);
+                                        unregister_mods(MOD_BIT(KC_RSFT));
+//                                  }
+//                        } else {
+//                              keyPresses[1] = 0;
                         }
                 }
                 return false;
-//                if(record->event.pressed) {
-//                        my_rCtrl_timer = timer_read();
-//                        register_code(KC_RCTL); // Change the key to be held here
-//                } else {
-//                        unregister_code(KC_RCTL); // Change the key that was held here, too!
-//                        if (timer_elapsed(my_rCtrl_timer) < TAPPING_TERM) {
-//                                SEND_STRING(")"); // Change the character(s) to be sent on tap here
-//                        }
-//                }
-//                return false; // We handled this keypress
                 break;
 
+        case L_BRK_SHIFT:
+                if(record->event.pressed) {
+//                        keyPresses[2]++;                
+                        
+                        my_lShift_timer = timer_read();
+                        register_mods(MOD_BIT(KC_LSFT));
+
+                } else {
+                        if (timer_elapsed(my_lShift_timer) < SPACE_CADET_TERM) {
+//                                  uprintf("%s string",keyPresses[2]);
+//                                  if (keyPresses[2] == 2){
+//                                        keyPresses[2] = 0;
+                                        register_code(KC_LBRC);
+                                        unregister_code(KC_LBRC);
+//                                  }
+//                        } else {
+//                              keyPresses[2] = 0;
+                        }
+                        
+                        unregister_mods(MOD_BIT(KC_LSFT));
+                }
+                return false;
+                break;
+
+        case R_BRK_SHIFT:
+                if(record->event.pressed) {
+//                        keyPresses[3]++;
+                                  
+                        my_rShift_timer = timer_read();
+                        register_mods(MOD_BIT(KC_RSFT));
+
+                } else {
+                        if (timer_elapsed(my_rShift_timer) < SPACE_CADET_TERM) {
+//                                  uprintf("%s string",keyPresses[2]);
+//                                  if (keyPresses[3] == 2){
+//                                        keyPresses[3] = 0;
+                                        register_code(KC_RBRC);
+                                        unregister_code(KC_RBRC);
+//                                  }
+//                        } else {
+//                              keyPresses[3] = 0;
+                        }
+                        
+                        unregister_mods(MOD_BIT(KC_RSFT));
+                }
+                return false;
+                break;
+                
         case L_SQPR_ALT:
                 if(record->event.pressed) {                
+//                        keyPresses[4]++;
+                                  
                         my_lAlt_timer = timer_read();
                         register_mods(MOD_BIT(KC_LALT));
 
                 } else {
                         unregister_mods(MOD_BIT(KC_LALT));
                         
-                        if (timer_elapsed(my_lAlt_timer) < TAPPING_TERM) {
-                                  register_code(KC_LBRC);
-                                  unregister_code(KC_LBRC);
+                        if (timer_elapsed(my_lAlt_timer) < SPACE_CADET_TERM) {
+//                                  if (keyPresses[4] == 2){
+//                                        keyPresses[4] = 0;
+                                        register_code(KC_LBRC);
+                                        unregister_code(KC_LBRC);
+//                                  }
+//                        } else {
+//                              keyPresses[4] = 0;
                         }
                 }
-                return false; 
-//                if(record->event.pressed) {
-//                        my_lAlt_timer = timer_read();
-//                        register_code(KC_LALT); // Change the key to be held here
-//                } else {
-//                        unregister_code(KC_LALT); // Change the key that was held here, too!
-//                        if (timer_elapsed(my_lAlt_timer) < TAPPING_TERM) {
-//                                SEND_STRING("["); // Change the character(s) to be sent on tap here
-//                        }
-//                }
-//                return false; // We handled this keypress
+                return false;
                 break;
 
         case R_SQPR_ALT:
                 if(record->event.pressed) {
+//                        keyPresses[5]++;
+                                  
                         my_rAlt_timer = timer_read();
                         register_mods(MOD_BIT(KC_ALGR));
 
                 } else {
                         unregister_mods(MOD_BIT(KC_ALGR));
                         
-                        if (timer_elapsed(my_rAlt_timer) < TAPPING_TERM) {
-                                  register_code(KC_RBRC);
-                                  unregister_code(KC_RBRC);
+                        if (timer_elapsed(my_rAlt_timer) < SPACE_CADET_TERM) {
+//                                if (keyPresses[5] == 2){
+//                                        keyPresses[5] = 0;
+                                        register_code(KC_RBRC);
+                                        unregister_code(KC_RBRC);
+//                                  }
+//                        } else {
+//                              keyPresses[5] = 0;
                         }
                 }
-                return false; // We handled this keypress
-//                if(record->event.pressed) {
-//                        my_rAlt_timer = timer_read();
-//                        register_code(KC_ALGR); // Change the key to be held here
-//                } else {
-//                        unregister_code(KC_ALGR); // Change the key that was held here, too!
-//                        if (timer_elapsed(my_rAlt_timer) < TAPPING_TERM) {
-//                                SEND_STRING("]"); // Change the character(s) to be sent on tap here
-//                        }
-//                }
-//                return false; // We handled this keypress
+                return false;
                 break;
 
         case TWO_AND:
@@ -440,7 +451,7 @@ uint32_t layer_state_set_user(uint32_t state) {
                 break;
         case _FUNC:
                 isDefaultLayer = _FUNC;
-                rgblight_setrgb_at(130, 0, 0, 5);
+                rgblight_setrgb_at(130, 0, 0, 6);
                 break;
         case _NUMS:
                 isDefaultLayer = _NUMS;
@@ -448,7 +459,7 @@ uint32_t layer_state_set_user(uint32_t state) {
                 break;
         case _NVMD:
                 isDefaultLayer = _NVMD;
-                rgblight_setrgb_at(130, 255, 130, 6);
+                rgblight_setrgb_at(130, 255, 130, 7);
                 break;
         // case 2:
         // break;
@@ -456,8 +467,8 @@ uint32_t layer_state_set_user(uint32_t state) {
                 isDefaultLayer = _BASE;
                 rgblight_setrgb_at(0, 0, 0, 0);
                 rgblight_setrgb_at(0, 0, 0, 1);
-                rgblight_setrgb_at(0, 0, 0, 5);
                 rgblight_setrgb_at(0, 0, 0, 6);
+                rgblight_setrgb_at(0, 0, 0, 7);
                 break;
         }
 

@@ -32,7 +32,8 @@
 // #undef LEADER_TIMEOUT
 // #define LEADER_TIMEOUT 100
 #undef LEADER_TIMEOUT
-#define LEADER_TIMEOUT 1000
+#define LEADER_TIMEOUT 500
+#define LEADER_PER_KEY_TIMING
 
 /* key matrix size */
 #define MATRIX_ROWS 5
@@ -58,7 +59,8 @@
 #define DIODE_DIRECTION COL2ROW
 
 //
-#define TAPPING_TERM 135
+#define SPACE_CADET_TERM 150
+#define TAPPING_TERM 150
 //#define ONESHOT_TAP_TOGGLE 2  /* Tapping this number of times holds the key until tapped this number of times again. */
 //#define ONESHOT_TIMEOUT 4000
 #define TAPPING_TOGGLE 2
@@ -120,10 +122,10 @@
  */
 
 /* key combination for magic key command */
-#define IS_COMMAND() ( \
+/*#define IS_COMMAND() ( \
                 keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
                 )
-
+*/
 /* control how magic key switches layers */
 //#define MAGIC_KEY_SWITCH_LAYER_WITH_FKEYS  true
 //#define MAGIC_KEY_SWITCH_LAYER_WITH_NKEYS  true
