@@ -26,12 +26,6 @@ enum CustomLayers {
 
 enum CustomKeycodes {
         TWO_OR = SAFE_RANGE,
-        L_BRK_SHIFT,
-        R_BRK_SHIFT,
-        L_PRT_CTRL,
-        R_PRL_CLTR,
-        L_SQPR_ALT,
-        R_SQPR_ALT,
         TWO_AND,
         SG_QUOTE,
         DB_QUOTE,
@@ -43,24 +37,39 @@ enum CustomKeycodes {
         GO_R
 };
 
+enum TapDanceKeycodes{
+        L_PRT_CTRL,
+        R_PRT_CTRL,
+        L_BRK_SHIFT,
+        R_BRK_SHIFT,
+        L_SQRB_ALT,
+        R_SQRB_ALT
+};
+
 uint8_t isDefaultLayer = _BASE;
 
-#define TO_FUNC   TT(_FUNC)
-#define TO_SYMB   TT(_SYMB)
-#define NVMD_TAB  LT(_NVMD, KC_TAB)
-#define NUMS_ESC  LT(_NUMS, KC_ESC)
+#define TO_FUNC    TT(_FUNC)
+#define TO_SYMB    TT(_SYMB)
+#define NVMD_TAB   LT(_NVMD, KC_TAB)
+#define NUMS_ESC   LT(_NUMS, KC_ESC)
+#define TD_L_PT_CR TD(L_PRT_CTRL)
+#define TD_R_PT_CR TD(R_PRT_CTRL)
+#define TD_L_BR_SH TD(L_BRK_SHIFT)
+#define TD_R_BR_SH TD(R_BRK_SHIFT)
+#define TD_L_SQ_AL TD(L_SQRB_ALT)
+#define TD_R_SQ_AL TD(R_SQRB_ALT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
                     NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,   KC_LEAD, /**/  \
-                  L_PRT_CTRL,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL, /**/  \
-                 L_BRK_SHIFT,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/  \
-                  L_SQPR_ALT,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/  \
+                  TD_L_PT_CR,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL, /**/  \
+                  TD_L_BR_SH,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/  \
+                  TD_L_SQ_AL,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/  \
                                          KC_PGDN,                                          /**/  \
                                                                     KC_DEL,   KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    NUMS_ESC,    \
-                                                                    KC_MINS,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, R_PRL_CLTR,  \
-                                                                    KC_APP,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, R_BRK_SHIFT, \
-                                                                    KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, R_SQPR_ALT,  \
+                                                                    KC_MINS,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,  \
+                                                                    KC_APP,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,  \
+                                                                    KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, TD_R_SQ_AL,  \
                                                                                                               KC_DOWN
         ),
         [_SYMB] = LAYOUT(
@@ -113,6 +122,175 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         )
 };
 
+// C O N T R O L
+void dance_l_ctrl_finished(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 2) {
+        rgblight_setrgb_at(0, 0, 0, 2);
+        rgblight_setrgb_at(0, 0, 0, 3);
+
+        register_mods(MOD_BIT(KC_LSFT));
+        register_code(KC_9);
+  } else {
+        rgblight_setrgb_at(40, 0, 0, 2);
+        rgblight_setrgb_at(40, 0, 0, 3);
+
+        register_mods(MOD_BIT(KC_LCTL));
+  }
+}
+
+void dance_l_ctrl_reset(qk_tap_dance_state_t *state, void *user_data) {
+    rgblight_setrgb_at(0, 0, 0, 2);
+    rgblight_setrgb_at(0, 0, 0, 3);
+
+    if (state->count == 2) {
+        unregister_code(KC_9);
+        unregister_mods(MOD_BIT(KC_LSFT));
+    } else {
+        unregister_mods(MOD_BIT(KC_LCTL));
+    }
+}
+
+void dance_r_ctrl_finished(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 2) {
+        rgblight_setrgb_at(0, 0, 0, 2);
+        rgblight_setrgb_at(0, 0, 0, 3);
+
+        register_mods(MOD_BIT(KC_RSFT));
+        register_code(KC_0);
+    } else {
+        rgblight_setrgb_at(40, 0, 0, 2);
+        rgblight_setrgb_at(40, 0, 0, 3);
+
+        register_mods(MOD_BIT(KC_RCTL));
+  }
+}
+
+void dance_r_ctrl_reset(qk_tap_dance_state_t *state, void *user_data) {
+    rgblight_setrgb_at(0, 0, 0, 2);
+    rgblight_setrgb_at(0, 0, 0, 3);
+
+    if (state->count == 2) {
+        unregister_code(KC_0);
+        unregister_mods(MOD_BIT(KC_RSFT));
+    } else {
+        unregister_mods(MOD_BIT(KC_RCTL));
+    }
+}
+
+// S H I F T
+void dance_l_shift_finished(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 2) {
+        rgblight_setrgb_at(0, 0, 0, 3);
+        rgblight_setrgb_at(0, 0, 0, 4);
+
+        register_mods(MOD_BIT(KC_LSFT));
+        register_code(KC_LBRC);
+  } else {
+        rgblight_setrgb_at(40, 0, 0, 3);
+        rgblight_setrgb_at(40, 0, 0, 4);
+        register_mods(MOD_BIT(KC_LSFT));
+  }
+}
+
+void dance_l_shift_reset(qk_tap_dance_state_t *state, void *user_data) {
+    rgblight_setrgb_at(0, 0, 0, 3);
+    rgblight_setrgb_at(0, 0, 0, 4);
+
+    if (state->count == 2) {
+        unregister_code(KC_LBRC);
+        unregister_mods(MOD_BIT(KC_LSFT));
+    } else {
+        unregister_mods(MOD_BIT(KC_LSFT));
+    }
+}
+
+void dance_r_shift_finished(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 2) {
+        rgblight_setrgb_at(0, 0, 0, 3);
+        rgblight_setrgb_at(0, 0, 0, 4);
+
+        register_mods(MOD_BIT(KC_RSFT));
+        register_code(KC_RBRC);
+  } else {
+        rgblight_setrgb_at(40, 0, 0, 3);
+        rgblight_setrgb_at(40, 0, 0, 4);
+
+        register_mods(MOD_BIT(KC_RSFT));
+  }
+}
+
+void dance_r_shift_reset(qk_tap_dance_state_t *state, void *user_data) {
+    rgblight_setrgb_at(0, 0, 0, 3);
+    rgblight_setrgb_at(0, 0, 0, 4);
+
+    if (state->count == 2) {
+        unregister_code(KC_RBRC);
+        unregister_mods(MOD_BIT(KC_RSFT));
+    } else {
+        unregister_mods(MOD_BIT(KC_RSFT));
+    }
+}
+
+// A L T
+void dance_l_alt_finished(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 2) {
+        rgblight_setrgb_at(0, 0, 0, 4);
+        rgblight_setrgb_at(0, 0, 0, 5);
+
+        register_code(KC_LBRC);
+  } else {
+        rgblight_setrgb_at(40, 0, 0, 4);
+        rgblight_setrgb_at(40, 0, 0, 5);
+
+        register_mods(MOD_BIT(KC_LALT));
+  }
+}
+
+void dance_l_alt_reset(qk_tap_dance_state_t *state, void *user_data) {
+    rgblight_setrgb_at(0, 0, 0, 4);
+    rgblight_setrgb_at(0, 0, 0, 5);
+
+    if (state->count == 2) {
+        unregister_code(KC_LBRC);
+    } else {
+        unregister_mods(MOD_BIT(KC_LALT));
+    }
+}
+
+void dance_r_alt_finished(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 2) {
+        rgblight_setrgb_at(0, 0, 0, 4);
+        rgblight_setrgb_at(0, 0, 0, 5);
+
+        register_code(KC_RBRC);
+    } else {
+        rgblight_setrgb_at(40, 0, 0, 4);
+        rgblight_setrgb_at(40, 0, 0, 5);
+
+        register_mods(MOD_BIT(KC_ALGR));
+  }
+}
+
+void dance_r_alt_reset(qk_tap_dance_state_t *state, void *user_data) {
+    rgblight_setrgb_at(0, 0, 0, 4);
+    rgblight_setrgb_at(0, 0, 0, 5);
+
+    if (state->count == 2) {
+        unregister_code(KC_RBRC);
+    } else {
+        unregister_mods(MOD_BIT(KC_ALGR));
+    }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [L_PRT_CTRL] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_ctrl_finished, dance_l_ctrl_reset),
+    [R_PRT_CTRL] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_ctrl_finished, dance_r_ctrl_reset),
+    [L_BRK_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_shift_finished, dance_l_shift_reset),
+    [R_BRK_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_shift_finished, dance_r_shift_reset),
+    [L_SQRB_ALT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_alt_finished, dance_l_alt_reset),
+    [R_SQRB_ALT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_alt_finished, dance_r_alt_reset)
+};
+
 
 LEADER_EXTERNS();
 
@@ -136,11 +314,11 @@ void matrix_scan_user(void) {
         LEADER_DICTIONARY() {
                 leading = false;
                 leader_end();
-                
-                SEQ_FOUR_KEYS(KC_C, KC_S, KC_A, KC_G) {                
+
+                SEQ_FOUR_KEYS(KC_C, KC_S, KC_A, KC_G) {
                       SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("g"))));
                 }
-                
+
                 SEQ_FOUR_KEYS(KC_C, KC_S, KC_A, KC_T) {
                       SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("t"))));
                 }
@@ -149,160 +327,7 @@ void matrix_scan_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-        static uint16_t my_lCtrl_timer;
-        static uint16_t my_rCtrl_timer;
-        static uint16_t my_lShift_timer;
-        static uint16_t my_rShift_timer;
-        static uint16_t my_lAlt_timer;
-        static uint16_t my_rAlt_timer;
-
-
         switch (keycode) {
-
-        case L_PRT_CTRL:
-                if(record->event.pressed) {                
-//                        keyPresses[0]++;
-                                  
-                        my_lCtrl_timer = timer_read();
-                        register_mods(MOD_BIT(KC_LCTL));
-
-                } else {
-                        unregister_mods(MOD_BIT(KC_LCTL));
-                        
-                        if (timer_elapsed(my_lCtrl_timer) < SPACE_CADET_TERM) {
-//                                  if (keyPresses[0] == 2){
-//                                        keyPresses[0] = 0;
-                                        register_mods(MOD_BIT(KC_LSFT));
-                                        register_code(KC_9);
-                                        unregister_code(KC_9);
-                                        unregister_mods(MOD_BIT(KC_LSFT));
-//                                  }
-//                        } else {
-//                              keyPresses[0] = 0;
-                        }
-                }
-                return false;
-                break;
-
-        case R_PRL_CLTR:
-                if(record->event.pressed) {             
-//                        keyPresses[1]++;
-                                     
-                        my_rCtrl_timer = timer_read();
-                        register_mods(MOD_BIT(KC_RCTL));
-
-                } else {
-                        unregister_mods(MOD_BIT(KC_RCTL));
-                        
-                        if (timer_elapsed(my_rCtrl_timer) < SPACE_CADET_TERM) {
-//                                  if (keyPresses[1] == 2){
-//                                        keyPresses[1] = 0;
-                                        register_mods(MOD_BIT(KC_RSFT));
-                                        register_code(KC_0);
-                                        unregister_code(KC_0);
-                                        unregister_mods(MOD_BIT(KC_RSFT));
-//                                  }
-//                        } else {
-//                              keyPresses[1] = 0;
-                        }
-                }
-                return false;
-                break;
-
-        case L_BRK_SHIFT:
-                if(record->event.pressed) {
-//                        keyPresses[2]++;                
-                        
-                        my_lShift_timer = timer_read();
-                        register_mods(MOD_BIT(KC_LSFT));
-
-                } else {
-                        if (timer_elapsed(my_lShift_timer) < SPACE_CADET_TERM) {
-//                                  uprintf("%s string",keyPresses[2]);
-//                                  if (keyPresses[2] == 2){
-//                                        keyPresses[2] = 0;
-                                        register_code(KC_LBRC);
-                                        unregister_code(KC_LBRC);
-//                                  }
-//                        } else {
-//                              keyPresses[2] = 0;
-                        }
-                        
-                        unregister_mods(MOD_BIT(KC_LSFT));
-                }
-                return false;
-                break;
-
-        case R_BRK_SHIFT:
-                if(record->event.pressed) {
-//                        keyPresses[3]++;
-                                  
-                        my_rShift_timer = timer_read();
-                        register_mods(MOD_BIT(KC_RSFT));
-
-                } else {
-                        if (timer_elapsed(my_rShift_timer) < SPACE_CADET_TERM) {
-//                                  uprintf("%s string",keyPresses[2]);
-//                                  if (keyPresses[3] == 2){
-//                                        keyPresses[3] = 0;
-                                        register_code(KC_RBRC);
-                                        unregister_code(KC_RBRC);
-//                                  }
-//                        } else {
-//                              keyPresses[3] = 0;
-                        }
-                        
-                        unregister_mods(MOD_BIT(KC_RSFT));
-                }
-                return false;
-                break;
-                
-        case L_SQPR_ALT:
-                if(record->event.pressed) {                
-//                        keyPresses[4]++;
-                                  
-                        my_lAlt_timer = timer_read();
-                        register_mods(MOD_BIT(KC_LALT));
-
-                } else {
-                        unregister_mods(MOD_BIT(KC_LALT));
-                        
-                        if (timer_elapsed(my_lAlt_timer) < SPACE_CADET_TERM) {
-//                                  if (keyPresses[4] == 2){
-//                                        keyPresses[4] = 0;
-                                        register_code(KC_LBRC);
-                                        unregister_code(KC_LBRC);
-//                                  }
-//                        } else {
-//                              keyPresses[4] = 0;
-                        }
-                }
-                return false;
-                break;
-
-        case R_SQPR_ALT:
-                if(record->event.pressed) {
-//                        keyPresses[5]++;
-                                  
-                        my_rAlt_timer = timer_read();
-                        register_mods(MOD_BIT(KC_ALGR));
-
-                } else {
-                        unregister_mods(MOD_BIT(KC_ALGR));
-                        
-                        if (timer_elapsed(my_rAlt_timer) < SPACE_CADET_TERM) {
-//                                if (keyPresses[5] == 2){
-//                                        keyPresses[5] = 0;
-                                        register_code(KC_RBRC);
-                                        unregister_code(KC_RBRC);
-//                                  }
-//                        } else {
-//                              keyPresses[5] = 0;
-                        }
-                }
-                return false;
-                break;
-
         case TWO_AND:
                 if (record->event.pressed) {
                         SEND_STRING(" && ");
@@ -402,43 +427,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         return true;
 };
-
-void oneshot_mods_changed_kb(uint8_t mods) {
-        if (mods & MOD_MASK_SHIFT) {
-                rgblight_setrgb_at(40, 0, 0, 3);
-        }
-        if (mods & MOD_MASK_CTRL) {
-                rgblight_setrgb_at(0, 140, 0, 2);
-        }
-        if (mods & MOD_MASK_ALT) {
-                rgblight_setrgb_at(0, 140, 0, 4);
-        }
-
-        if (!mods) {
-                rgblight_setrgb_at(0, 0, 0, 2);
-                rgblight_setrgb_at(0, 0, 0, 3);
-                rgblight_setrgb_at(0, 0, 0, 4);
-        }
-}
-
-void oneshot_locked_mods_changed_kb(uint8_t mods) {
-        if (mods & MOD_MASK_SHIFT) {
-                rgblight_setrgb_at(110, 0, 0, 3);
-        }
-        if (mods & MOD_MASK_CTRL) {
-                rgblight_setrgb_at(0, 255, 0, 2);
-        }
-        if (mods & MOD_MASK_ALT) {
-                rgblight_setrgb_at(0, 255, 0, 4);
-        }
-
-        if (!mods) {
-                rgblight_setrgb_at(0, 0, 0, 2);
-                rgblight_setrgb_at(0, 0, 0, 3);
-                rgblight_setrgb_at(0, 0, 0, 4);
-        }
-}
-
 
 uint32_t layer_state_set_user(uint32_t state) {
         // icekeys_led_off();

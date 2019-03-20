@@ -52,8 +52,7 @@ BOOTLOADER = halfkay
 #   change yes to no to disable
 #
 LEADER_ENABLE = yes
-TAP_DANCE_ENABLE = no
-RGBLIGHT_ENABLE = yes
+TAP_DANCE_ENABLE = yes
 RGBLIGHT_ENABLE = yes
 BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = yes       # Mouse keys(+4700)
