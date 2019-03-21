@@ -37,7 +37,7 @@ enum CustomKeycodes {
         GO_R
 };
 
-enum TapDanceKeycodes{
+enum TapDanceKeycodes {
         L_PRT_CTRL,
         R_PRT_CTRL,
         L_BRK_SHIFT,
@@ -47,6 +47,7 @@ enum TapDanceKeycodes{
 };
 
 uint8_t isDefaultLayer = _BASE;
+const uint8_t MODS_TAP_COUNT = 2;
 
 #define TO_FUNC    TT(_FUNC)
 #define TO_SYMB    TT(_SYMB)
@@ -122,162 +123,163 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         )
 };
 
+
+uint8_t ledsRed[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t ledsGrn[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+uint8_t ledsBlu[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
+
+inline void changeLight(uint8_t ledA, uint8_t ledB, uint8_t value){
+    ledsRed[ledA] += value;
+    ledsGrn[ledA] += value;
+    ledsBlu[ledA] += value; 
+    
+    ledsRed[ledB] += value;
+    ledsGrn[ledB] += value;
+    ledsBlu[ledB] += value;
+    
+    rgblight_setrgb_at(ledsRed[ledA], ledsGrn[ledA], ledsBlu[ledA], ledA);
+    rgblight_setrgb_at(ledsRed[ledB], ledsGrn[ledB], ledsBlu[ledB], ledB);
+}
+
 // C O N T R O L
 void dance_l_ctrl_finished(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 2) {
-        rgblight_setrgb_at(0, 0, 0, 2);
-        rgblight_setrgb_at(0, 0, 0, 3);
-
+    if (state->count == MODS_TAP_COUNT) {
         register_mods(MOD_BIT(KC_LSFT));
         register_code(KC_9);
+        
   } else {
-        rgblight_setrgb_at(40, 0, 0, 2);
-        rgblight_setrgb_at(40, 0, 0, 3);
-
+        changeLight(7, 6, 40);
+        
         register_mods(MOD_BIT(KC_LCTL));
   }
 }
 
 void dance_l_ctrl_reset(qk_tap_dance_state_t *state, void *user_data) {
-    rgblight_setrgb_at(0, 0, 0, 2);
-    rgblight_setrgb_at(0, 0, 0, 3);
-
-    if (state->count == 2) {
+    if (state->count == MODS_TAP_COUNT) {
         unregister_code(KC_9);
         unregister_mods(MOD_BIT(KC_LSFT));
+        
     } else {
+        changeLight(7, 6, -40);
+        
         unregister_mods(MOD_BIT(KC_LCTL));
     }
 }
 
 void dance_r_ctrl_finished(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 2) {
-        rgblight_setrgb_at(0, 0, 0, 2);
-        rgblight_setrgb_at(0, 0, 0, 3);
-
+    if (state->count == MODS_TAP_COUNT) {
         register_mods(MOD_BIT(KC_RSFT));
         register_code(KC_0);
     } else {
-        rgblight_setrgb_at(40, 0, 0, 2);
-        rgblight_setrgb_at(40, 0, 0, 3);
+        changeLight(0, 1, 40);
 
         register_mods(MOD_BIT(KC_RCTL));
   }
 }
 
 void dance_r_ctrl_reset(qk_tap_dance_state_t *state, void *user_data) {
-    rgblight_setrgb_at(0, 0, 0, 2);
-    rgblight_setrgb_at(0, 0, 0, 3);
-
-    if (state->count == 2) {
+    if (state->count == MODS_TAP_COUNT) {
         unregister_code(KC_0);
         unregister_mods(MOD_BIT(KC_RSFT));
+        
     } else {
+        changeLight(0, 1, -40);
+        
         unregister_mods(MOD_BIT(KC_RCTL));
     }
 }
 
 // S H I F T
 void dance_l_shift_finished(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 2) {
-        rgblight_setrgb_at(0, 0, 0, 3);
-        rgblight_setrgb_at(0, 0, 0, 4);
-
+    if (state->count == MODS_TAP_COUNT) {
         register_mods(MOD_BIT(KC_LSFT));
         register_code(KC_LBRC);
+        
   } else {
-        rgblight_setrgb_at(40, 0, 0, 3);
-        rgblight_setrgb_at(40, 0, 0, 4);
+        changeLight(6, 5, 40);
+        
         register_mods(MOD_BIT(KC_LSFT));
   }
 }
 
 void dance_l_shift_reset(qk_tap_dance_state_t *state, void *user_data) {
-    rgblight_setrgb_at(0, 0, 0, 3);
-    rgblight_setrgb_at(0, 0, 0, 4);
-
-    if (state->count == 2) {
+    if (state->count == MODS_TAP_COUNT) {
         unregister_code(KC_LBRC);
         unregister_mods(MOD_BIT(KC_LSFT));
+        
     } else {
+        changeLight(6, 5, -40);
+        
         unregister_mods(MOD_BIT(KC_LSFT));
     }
 }
 
 void dance_r_shift_finished(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 2) {
-        rgblight_setrgb_at(0, 0, 0, 3);
-        rgblight_setrgb_at(0, 0, 0, 4);
-
+    if (state->count == MODS_TAP_COUNT) {
         register_mods(MOD_BIT(KC_RSFT));
         register_code(KC_RBRC);
+        
   } else {
-        rgblight_setrgb_at(40, 0, 0, 3);
-        rgblight_setrgb_at(40, 0, 0, 4);
+        changeLight(1, 2, 40);
 
         register_mods(MOD_BIT(KC_RSFT));
   }
 }
 
 void dance_r_shift_reset(qk_tap_dance_state_t *state, void *user_data) {
-    rgblight_setrgb_at(0, 0, 0, 3);
-    rgblight_setrgb_at(0, 0, 0, 4);
-
-    if (state->count == 2) {
+    if (state->count == MODS_TAP_COUNT) {
         unregister_code(KC_RBRC);
         unregister_mods(MOD_BIT(KC_RSFT));
+        
     } else {
+        changeLight(1, 2, -40);
+    
         unregister_mods(MOD_BIT(KC_RSFT));
     }
 }
 
 // A L T
 void dance_l_alt_finished(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 2) {
-        rgblight_setrgb_at(0, 0, 0, 4);
-        rgblight_setrgb_at(0, 0, 0, 5);
-
+    if (state->count == MODS_TAP_COUNT) {
         register_code(KC_LBRC);
+        
   } else {
-        rgblight_setrgb_at(40, 0, 0, 4);
-        rgblight_setrgb_at(40, 0, 0, 5);
+        changeLight(5, 4, 40);
 
         register_mods(MOD_BIT(KC_LALT));
   }
 }
 
 void dance_l_alt_reset(qk_tap_dance_state_t *state, void *user_data) {
-    rgblight_setrgb_at(0, 0, 0, 4);
-    rgblight_setrgb_at(0, 0, 0, 5);
-
-    if (state->count == 2) {
+    if (state->count == MODS_TAP_COUNT) {
         unregister_code(KC_LBRC);
+        
     } else {
+        changeLight(5, 4, -40);
+        
         unregister_mods(MOD_BIT(KC_LALT));
     }
 }
 
 void dance_r_alt_finished(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == 2) {
-        rgblight_setrgb_at(0, 0, 0, 4);
-        rgblight_setrgb_at(0, 0, 0, 5);
-
+    if (state->count == MODS_TAP_COUNT) {
         register_code(KC_RBRC);
+        
     } else {
-        rgblight_setrgb_at(40, 0, 0, 4);
-        rgblight_setrgb_at(40, 0, 0, 5);
-
+        changeLight(2, 3, 40);
+        
         register_mods(MOD_BIT(KC_ALGR));
   }
 }
 
 void dance_r_alt_reset(qk_tap_dance_state_t *state, void *user_data) {
-    rgblight_setrgb_at(0, 0, 0, 4);
-    rgblight_setrgb_at(0, 0, 0, 5);
-
-    if (state->count == 2) {
+    if (state->count == MODS_TAP_COUNT) {
         unregister_code(KC_RBRC);
+        
     } else {
+        changeLight(2, 3, -40);
+        
         unregister_mods(MOD_BIT(KC_ALGR));
     }
 }

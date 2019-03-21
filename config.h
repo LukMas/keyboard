@@ -58,7 +58,7 @@
 /* COL2ROW, ROW2COL, or CUSTOM_MATRIX */
 #define DIODE_DIRECTION COL2ROW
 
-#define TAPPING_TERM 150
+#define TAPPING_TERM 200
 //#define ONESHOT_TAP_TOGGLE 2  /* Tapping this number of times holds the key until tapped this number of times again. */
 //#define ONESHOT_TIMEOUT 4000
 #define TAPPING_TOGGLE 2
