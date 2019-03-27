@@ -43,7 +43,24 @@ enum TapDanceKeycodes {
         L_BRK_SHIFT,
         R_BRK_SHIFT,
         L_SQRB_ALT,
-        R_SQRB_ALT
+        R_SQRB_ALT,
+        ESC_GUI_NUMS,
+        RST_KEYB
+};
+
+typedef struct {
+  bool is_press_action;
+  int state;
+} tap;
+
+enum {
+  SINGLE_TAP = 1,
+  SINGLE_HOLD = 2,
+  DOUBLE_TAP = 3,
+  DOUBLE_HOLD = 4,
+  DOUBLE_SINGLE_TAP = 5, //send two single taps
+  TRIPLE_TAP = 6,
+  TRIPLE_HOLD = 7
 };
 
 uint8_t isDefaultLayer = _BASE;
@@ -59,30 +76,32 @@ const uint8_t MODS_TAP_COUNT = 2;
 #define TD_R_BR_SH TD(R_BRK_SHIFT)
 #define TD_L_SQ_AL TD(L_SQRB_ALT)
 #define TD_R_SQ_AL TD(R_SQRB_ALT)
+#define TD_E_G_LNS TD(ESC_GUI_NUMS)
+#define TD_RST_KYB TD(RST_KEYB)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
-                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,   KC_LEAD, /**/  \
+                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,     KC_NO, /**/  \
                   TD_L_PT_CR,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL, /**/  \
-                  TD_L_BR_SH,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,   KC_LGUI, /**/  \
-                  TD_L_SQ_AL,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_INS, /**/  \
+                  TD_L_BR_SH,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,    KC_APP, /**/  \
+                  TD_L_SQ_AL,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_DEL, /**/  \
                                          KC_PGDN,                                          /**/  \
-                                                                    KC_DEL,   KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    NUMS_ESC,    \
+                                                                    KC_NO,    KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    TD_E_G_LNS,  \
                                                                     KC_MINS,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,  \
-                                                                    KC_APP,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,  \
+                                                                    KC_INS,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,  \
                                                                     KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, TD_R_SQ_AL,  \
                                                                                                               KC_DOWN
         ),
         [_SYMB] = LAYOUT(
-                      KC_TAB,    KC_NO,  SG_QUOTE,   KC_GRV,   TWO_OR,  KC_PIPE,     KC_NO, /**/  \
+                      KC_TAB,    KC_NO,   KC_PIPE, SG_QUOTE,   KC_GRV,   TWO_OR,     KC_NO, /**/  \
                      KC_LCTL,     KC_1,      KC_2,     KC_3,     KC_4,     KC_5,     KC_NO, /**/  \
-                     KC_LSFT,    KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_NO,     KC_NO, /**/  \
+                     KC_LSFT,   KC_DLR,   KC_LCBR,  KC_RCBR,    KC_NO,    KC_NO,     KC_NO, /**/  \
                      KC_LALT,  KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_LALT,  KC_LSFT,     KC_NO, /**/  \
                                           KC_TRNS,                                          /**/  \
-                                                                    KC_NO,    KC_AMPR,    TWO_AND,  KC_QUOT,  DB_QUOTE, KC_NO,   KC_ESC,      \
+                                                                    KC_NO,    TWO_AND,    KC_QUOT,  DB_QUOTE, KC_AMPR,  KC_NO,   KC_ESC,      \
                                                                     KC_NO,    KC_6,       KC_7,     KC_8,     KC_9,     KC_0,    KC_RCTL,     \
-                                                                    KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_RSFT,     \
-                                                                    KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_BSLS, KC_ALGR,     \
+                                                                    KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_BSLS, KC_RSFT,     \
+                                                                    KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_ALGR,     \
                                                                                                               KC_TRNS
         ),
         [_FUNC] = LAYOUT(
@@ -115,10 +134,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                   KC_WAKE,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ \
                   KC_SLEP,   KC_NO,    KC_NO,   KC_NO,     W_LS,      W_LD,     GO_L, /**/ \
                                        KC_NO,                                         /**/ \
-                                                                    KC_NO,     KC_NO,      KC_NO,    KC_WH_U,  KC_NO,    KC_NO,   RESET,   \
-                                                                    KC_NO,     KC_NO,      KC_WH_L,  KC_WH_D,  KC_WH_R,  KC_NO,   KC_NO,   \
-                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_MUTE,  KC_NO,   KC_NO,   \
-                                                                    GO_R,      W_RD,       W_RS,     KC_MPRV,  KC_VOLU,  KC_MNXT, KC_MPLY, \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_WH_U,  KC_NO,    KC_NO,   TD_RST_KYB, \
+                                                                    KC_NO,     KC_NO,      KC_WH_L,  KC_WH_D,  KC_WH_R,  KC_NO,   KC_NO,      \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_MUTE,  KC_NO,   KC_NO,      \
+                                                                    GO_R,      W_RD,       W_RS,     KC_MPRV,  KC_VOLU,  KC_MNXT, KC_MPLY,    \
                                                                                                                KC_VOLD
         )
 };
@@ -127,8 +146,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 uint8_t ledsRed[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 uint8_t ledsGrn[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 uint8_t ledsBlu[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-
-
 inline void changeLight(uint8_t ledA, uint8_t ledB, uint8_t value){
     ledsRed[ledA] += value;
     ledsGrn[ledA] += value;
@@ -284,48 +301,104 @@ void dance_r_alt_reset(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-qk_tap_dance_action_t tap_dance_actions[] = {
-    [L_PRT_CTRL] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_ctrl_finished, dance_l_ctrl_reset),
-    [R_PRT_CTRL] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_ctrl_finished, dance_r_ctrl_reset),
-    [L_BRK_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_shift_finished, dance_l_shift_reset),
-    [R_BRK_SHIFT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_shift_finished, dance_r_shift_reset),
-    [L_SQRB_ALT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_alt_finished, dance_l_alt_reset),
-    [R_SQRB_ALT] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_alt_finished, dance_r_alt_reset)
+
+int cur_dance (qk_tap_dance_state_t *state) {
+  if (state->count == 1) {
+    if (state->interrupted || !state->pressed)  return SINGLE_TAP;
+    //key has not been interrupted, but they key is still held. Means you want to send a 'HOLD'.
+    else return SINGLE_HOLD;
+  }
+  else if (state->count == 2) {
+    /*
+     * DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
+     * action when hitting 'pp'. Suggested use case for this return value is when you want to send two
+     * keystrokes of the key, and not the 'double tap' action/macro.
+    */
+    if (state->interrupted) return DOUBLE_SINGLE_TAP;
+    else if (state->pressed) return DOUBLE_HOLD;
+    else return DOUBLE_TAP;
+  }
+  //Assumes no one is trying to type the same letter three times (at least not quickly).
+  //If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
+  //an exception here to return a 'TRIPLE_SINGLE_TAP', and define that enum just like 'DOUBLE_SINGLE_TAP'
+  if (state->count == 3) {
+    if (state->interrupted || !state->pressed)  return TRIPLE_TAP;
+    else return TRIPLE_HOLD;
+  }
+  else return 8; //magic number. At some point this method will expand to work for more presses
+}
+
+//instanalize an instance of 'tap' for the 'x' tap dance.
+static tap xtap_state = {
+  .is_press_action = true,
+  .state = 0
 };
 
-
-LEADER_EXTERNS();
-
-uint8_t keyPresses[6] = {0,0,0,0,0,0};
-
-void leader_start(void) {
-                rgblight_setrgb_at(130, 130, 130, 4);
+void dance_EscGuiOrLayer_finished (qk_tap_dance_state_t *state, void *user_data) {
+  xtap_state.state = cur_dance(state);
+  switch (xtap_state.state) {
+    case SINGLE_TAP:  register_code(KC_ESC); break;
+    case SINGLE_HOLD: layer_on(_NUMS); break;
+    case DOUBLE_TAP:  register_code(KC_LGUI); break;
+    case DOUBLE_HOLD:  register_code(KC_LGUI); rgblight_setrgb_at(150, 150, 150, 0); break;
+    //Last case is for fast typing. Assuming your key is `f`:
+    //For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
+    //In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
+  }
 }
 
-void leader_end(void) {
-                rgblight_setrgb_at(0, 0, 0, 4);
+void dance_EscGuiOrLayer_reset (qk_tap_dance_state_t *state, void *user_data) {
+  switch (xtap_state.state) {
+    case SINGLE_TAP:  unregister_code(KC_ESC); break;
+    case SINGLE_HOLD: layer_off(_NUMS); break;
+    case DOUBLE_TAP:  unregister_code(KC_LGUI); break;
+    case DOUBLE_HOLD:  unregister_code(KC_LGUI); rgblight_setrgb_at(0, 0, 0, 0); break;
+  }
+  xtap_state.state = 0;
 }
+
+void dance_ResetKeyboard(qk_tap_dance_state_t *state, void *user_data) {
+  if (state->count >= 5) {
+    uint8_t ledId = 0;
+    while (ledId< 8) {
+      rgblight_setrgb_at(0, 0, 0, ledId);
+      ledId++;
+    }
+    
+    while (ledId > 0) {
+      ledId--;
+      rgblight_setrgb_at(80, 80, 80, ledId);    
+      wait_ms(20);
+    }
+    
+    wait_ms(100);
+      
+    while (ledId < 8) {
+      rgblight_setrgb_at(0, 0, 0, ledId);
+      wait_ms(20);
+      ledId++;        
+    }
+    
+    reset_keyboard();
+  }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [L_PRT_CTRL]   = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_ctrl_finished, dance_l_ctrl_reset),
+    [R_PRT_CTRL]   = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_ctrl_finished, dance_r_ctrl_reset),
+    [L_BRK_SHIFT]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_shift_finished, dance_l_shift_reset),
+    [R_BRK_SHIFT]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_shift_finished, dance_r_shift_reset),
+    [L_SQRB_ALT]   = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_alt_finished, dance_l_alt_reset),
+    [R_SQRB_ALT]   = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_alt_finished, dance_r_alt_reset),
+    [ESC_GUI_NUMS] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_EscGuiOrLayer_finished, dance_EscGuiOrLayer_reset),
+    [RST_KEYB]     = ACTION_TAP_DANCE_FN (dance_ResetKeyboard)
+};
 
 
 void matrix_init_user(void) {
         rgblight_enable_noeeprom();
 }
 
-
-void matrix_scan_user(void) {
-        LEADER_DICTIONARY() {
-                leading = false;
-                leader_end();
-
-                SEQ_FOUR_KEYS(KC_C, KC_S, KC_A, KC_G) {
-                      SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("g"))));
-                }
-
-                SEQ_FOUR_KEYS(KC_C, KC_S, KC_A, KC_T) {
-                      SEND_STRING(SS_LCTRL(SS_LSFT(SS_LALT("t"))));
-                }
-        }
-}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
@@ -464,3 +537,4 @@ uint32_t layer_state_set_user(uint32_t state) {
 
         return state;
 }
+
