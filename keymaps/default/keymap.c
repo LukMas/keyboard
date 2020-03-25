@@ -21,7 +21,8 @@ enum CustomLayers {
         _SYMB,  // symbols
         _FUNC,  // func keys
         _NUMS,  // num keypad on left side
-        _NVMD   // media and navigation keys
+        _NVMD,  // media and navigation keys
+        _NAVI   // navigation for IDEA
 };
 
 enum CustomKeycodes {
@@ -66,31 +67,33 @@ enum {
 uint8_t isDefaultLayer = _BASE;
 const uint8_t MODS_TAP_COUNT = 2;
 
-#define TO_FUNC    TT(_FUNC)
-#define TO_SYMB    TT(_SYMB)
-#define NVMD_TAB   LT(_NVMD, KC_TAB)
-#define NUMS_ESC   LT(_NUMS, KC_ESC)
-#define TD_L_PT_CR TD(L_PRT_CTRL)
-#define TD_R_PT_CR TD(R_PRT_CTRL)
-#define TD_L_BR_SH TD(L_BRK_SHIFT)
-#define TD_R_BR_SH TD(R_BRK_SHIFT)
-#define TD_L_SQ_AL TD(L_SQRB_ALT)
-#define TD_R_SQ_AL TD(R_SQRB_ALT)
-#define TD_E_G_LNS TD(ESC_GUI_NUMS)
-#define TD_RST_KYB TD(RST_KEYB)
+#define TO_FUNC         TT(_FUNC)
+#define TO_SYMB         TT(_SYMB)
+#define NVMD_TAB        LT(_NVMD, KC_TAB)
+#define NUMS_ESC        LT(_NUMS, KC_ESC)
+#define TD_L_PT_CR      TD(L_PRT_CTRL)
+#define TD_R_PT_CR      TD(R_PRT_CTRL)
+#define TD_L_BR_SH      TD(L_BRK_SHIFT)
+#define TD_R_BR_SH      TD(R_BRK_SHIFT)
+#define TD_L_SQ_AL      TD(L_SQRB_ALT)
+#define TD_R_SQ_AL      TD(R_SQRB_ALT)
+#define TD_E_G_LNS      TD(ESC_GUI_NUMS)
+#define TD_RST_KYB      TD(RST_KEYB)
+#define NAVI_WITH_CTRL  LM(_NAVI, MOD_LCTL)
+#define NAVI_WITH_ALT   LM(_NAVI, MOD_LALT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
-                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    KC_LBRC, /**/  \
-                  TD_L_PT_CR,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL,  /**/  \
-                  TD_L_BR_SH,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,    KC_APP,  /**/  \
-                  TD_L_SQ_AL,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_DEL,  /**/  \
-                                         KC_PGDN,                                           /**/  \
-                                                                    KC_RBRC,  KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    TD_E_G_LNS,  \
-                                                                    KC_MINS,  KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,  \
-                                                                    KC_INS,   KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,  \
-                                                                    KC_BSPC,  KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, TD_R_SQ_AL,  \
-                                                                                                              KC_DOWN
+                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    NAVI_WITH_CTRL, /**/  \
+                  TD_L_PT_CR,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL,         /**/  \
+                  TD_L_BR_SH,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,    KC_APP,         /**/  \
+                  TD_L_SQ_AL,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_DEL,         /**/  \
+                                         KC_PGDN,                                                  /**/  \
+                                                                    NAVI_WITH_ALT,  KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    TD_E_G_LNS,  \
+                                                                    KC_MINS,        KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,  \
+                                                                    KC_INS,         KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,  \
+                                                                    KC_BSPC,        KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, TD_R_SQ_AL,  \
+                                                                                                                    KC_DOWN
         ),
         [_SYMB] = LAYOUT(
                       KC_TAB,    KC_NO,   KC_PIPE, SG_QUOTE,   KC_GRV,   TWO_OR,     KC_NO, /**/  \
@@ -139,6 +142,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                     KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_MUTE,  KC_NO,   KC_NO,      \
                                                                     GO_R,      W_RD,       W_RS,     KC_MPRV,  KC_VOLU,  KC_MNXT, KC_MPLY,    \
                                                                                                                KC_VOLD
+        ),
+        [_NAVI] = LAYOUT(
+                  KC_TAB,    KC_NO,     KC_NO,    KC_NO,     KC_NO,      KC_NO,    KC_TRNS, /**/  \
+                  KC_NO,      KC_1,     KC_NO,    KC_NO,     KC_NO,      KC_NO,    KC_NO,   /**/  \
+                  KC_NO,     KC_NO,     KC_NO,    KC_NO,     KC_NO,      KC_NO,    KC_NO,   /**/  \
+                  KC_NO,   KC_HOME,   KC_PGUP,   KC_END,     KC_NO,      KC_NO,    KC_NO,   /**/  \
+                                      KC_PGDN,                                              /**/  \
+                                                                    KC_TRNS,  KC_NO,       KC_NO,     KC_NO,     KC_NO,     KC_NO,    KC_NO,  \
+                                                                    KC_NO,    KC_NO,       KC_NO,     KC_NO,     KC_NO,     KC_NO,    KC_NO,  \
+                                                                    KC_NO,    KC_NO,       KC_NO,     KC_NO,     KC_NO,     KC_NO,    KC_NO,  \
+                                                                    KC_NO,    KC_NO,       KC_NO,     KC_LEFT,   KC_UP,     KC_RGHT,  KC_NO,  \
+                                                                                                                 KC_DOWN
         )
 };
 
