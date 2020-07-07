@@ -79,20 +79,18 @@ const uint8_t MODS_TAP_COUNT = 2;
 #define TD_R_SQ_AL      TD(R_SQRB_ALT)
 #define TD_E_G_LNS      TD(ESC_GUI_NUMS)
 #define TD_RST_KYB      TD(RST_KEYB)
-#define NAVI_WITH_CTRL  LM(_NAVI, MOD_LCTL)
-#define NAVI_WITH_ALT   LM(_NAVI, MOD_LALT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
-                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    NAVI_WITH_CTRL, /**/  \
+                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    KC_GRAVE,       /**/  \
                   TD_L_PT_CR,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL,         /**/  \
                   TD_L_BR_SH,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,    KC_APP,         /**/  \
                   TD_L_SQ_AL,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_DEL,         /**/  \
                                          KC_PGDN,                                                  /**/  \
-                                                                    NAVI_WITH_ALT,  KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    TD_E_G_LNS,  \
-                                                                    KC_MINS,        KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,  \
-                                                                    KC_INS,         KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,  \
-                                                                    KC_BSPC,        KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, TD_R_SQ_AL,  \
+                                                                    KC_QUOTE,       KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    TD_E_G_LNS,     \
+                                                                    KC_MINS,        KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,     \
+                                                                    KC_INS,         KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,     \
+                                                                    KC_BSPC,        KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, TD_R_SQ_AL,     \
                                                                                                                     KC_DOWN
         ),
         [_SYMB] = LAYOUT(
@@ -142,18 +140,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                     KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_MUTE,  KC_NO,   KC_NO,      \
                                                                     GO_R,      W_RD,       W_RS,     KC_MPRV,  KC_VOLU,  KC_MNXT, KC_MPLY,    \
                                                                                                                KC_VOLD
-        ),
-        [_NAVI] = LAYOUT(
-                  KC_TAB,    KC_NO,     KC_NO,    KC_NO,     KC_NO,      KC_NO,    KC_TRNS, /**/  \
-                  KC_NO,      KC_1,     KC_NO,    KC_NO,     KC_NO,      KC_NO,    KC_NO,   /**/  \
-                  KC_NO,     KC_NO,     KC_NO,    KC_NO,     KC_NO,      KC_NO,    KC_NO,   /**/  \
-                  KC_NO,   KC_HOME,   KC_PGUP,   KC_END,     KC_NO,      KC_NO,    KC_NO,   /**/  \
-                                      KC_PGDN,                                              /**/  \
-                                                                    KC_TRNS,  KC_NO,       KC_NO,     KC_NO,     KC_NO,     KC_NO,    KC_NO,  \
-                                                                    KC_NO,    KC_NO,       KC_NO,     KC_NO,     KC_NO,     KC_NO,    KC_NO,  \
-                                                                    KC_NO,    KC_NO,       KC_NO,     KC_NO,     KC_NO,     KC_NO,    KC_NO,  \
-                                                                    KC_NO,    KC_NO,       KC_NO,     KC_LEFT,   KC_UP,     KC_RGHT,  KC_NO,  \
-                                                                                                                 KC_DOWN
         )
 };
 
@@ -174,9 +160,37 @@ inline void changeLight(uint8_t ledA, uint8_t ledB, uint8_t value){
     rgblight_setrgb_at(ledsRed[ledB], ledsGrn[ledB], ledsBlu[ledB], ledB);
 }
 
+
+int cur_dance (qk_tap_dance_state_t *state) {
+  if (state->count == 1) {
+    if (state->interrupted || !state->pressed)  return SINGLE_TAP;
+    //key has not been interrupted, but they key is still held. Means you want to send a 'HOLD'.
+    else return SINGLE_HOLD;
+  }
+  else if (state->count == 2) {
+    /*
+     * DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
+     * action when hitting 'pp'. Suggested use case for this return value is when you want to send two
+     * keystrokes of the key, and not the 'double tap' action/macro.
+    */
+    if (state->interrupted) return DOUBLE_SINGLE_TAP;
+    else if (state->pressed) return DOUBLE_HOLD;
+    else return DOUBLE_TAP;
+  }
+  //Assumes no one is trying to type the same letter three times (at least not quickly).
+  //If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
+  //an exception here to return a 'TRIPLE_SINGLE_TAP', and define that enum just like 'DOUBLE_SINGLE_TAP'
+  if (state->count == 3) {
+    if (state->interrupted || !state->pressed)  return TRIPLE_TAP;
+    else return TRIPLE_HOLD;
+  }
+  else return 8; //magic number. At some point this method will expand to work for more presses
+}
+
+
 // C O N T R O L
 void dance_l_ctrl_finished(qk_tap_dance_state_t *state, void *user_data) {
-    if (state->count == MODS_TAP_COUNT) {
+  if (state->count == MODS_TAP_COUNT) {
         register_mods(MOD_BIT(KC_LSFT));
         register_code(KC_9);
         
@@ -317,41 +331,15 @@ void dance_r_alt_reset(qk_tap_dance_state_t *state, void *user_data) {
 }
 
 
-int cur_dance (qk_tap_dance_state_t *state) {
-  if (state->count == 1) {
-    if (state->interrupted || !state->pressed)  return SINGLE_TAP;
-    //key has not been interrupted, but they key is still held. Means you want to send a 'HOLD'.
-    else return SINGLE_HOLD;
-  }
-  else if (state->count == 2) {
-    /*
-     * DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
-     * action when hitting 'pp'. Suggested use case for this return value is when you want to send two
-     * keystrokes of the key, and not the 'double tap' action/macro.
-    */
-    if (state->interrupted) return DOUBLE_SINGLE_TAP;
-    else if (state->pressed) return DOUBLE_HOLD;
-    else return DOUBLE_TAP;
-  }
-  //Assumes no one is trying to type the same letter three times (at least not quickly).
-  //If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
-  //an exception here to return a 'TRIPLE_SINGLE_TAP', and define that enum just like 'DOUBLE_SINGLE_TAP'
-  if (state->count == 3) {
-    if (state->interrupted || !state->pressed)  return TRIPLE_TAP;
-    else return TRIPLE_HOLD;
-  }
-  else return 8; //magic number. At some point this method will expand to work for more presses
-}
-
 //instanalize an instance of 'tap' for the 'x' tap dance.
-static tap xtap_state = {
+static tap EscOrGui_state = {
   .is_press_action = true,
   .state = 0
 };
 
 void dance_EscGuiOrLayer_finished (qk_tap_dance_state_t *state, void *user_data) {
-  xtap_state.state = cur_dance(state);
-  switch (xtap_state.state) {
+  EscOrGui_state.state = cur_dance(state);
+  switch (EscOrGui_state.state) {
     case SINGLE_TAP:  register_code(KC_ESC); break;
     case SINGLE_HOLD: layer_on(_NUMS); break;
     case DOUBLE_TAP:  register_code(KC_LGUI); break;
@@ -363,13 +351,13 @@ void dance_EscGuiOrLayer_finished (qk_tap_dance_state_t *state, void *user_data)
 }
 
 void dance_EscGuiOrLayer_reset (qk_tap_dance_state_t *state, void *user_data) {
-  switch (xtap_state.state) {
+  switch (EscOrGui_state.state) {
     case SINGLE_TAP:  unregister_code(KC_ESC); break;
     case SINGLE_HOLD: layer_off(_NUMS); break;
     case DOUBLE_TAP:  unregister_code(KC_LGUI); break;
     case DOUBLE_HOLD:  unregister_code(KC_LGUI); rgblight_setrgb_at(0, 0, 0, 0); break;
   }
-  xtap_state.state = 0;
+  EscOrGui_state.state = 0;
 }
 
 void dance_ResetKeyboard(qk_tap_dance_state_t *state, void *user_data) {
