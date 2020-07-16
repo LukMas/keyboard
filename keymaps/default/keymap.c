@@ -20,17 +20,12 @@ enum CustomLayers {
         _BASE = 0,
         _SYMB,  // symbols
         _FUNC,  // func keys
-        _NUMS,  // num keypad on left side
-        _NVMD,  // media and navigation keys
-        _NAVI   // navigation for IDEA
+        _MEDI,  // media keys
+        _NAVI   // navigation keys
 };
 
 enum CustomKeycodes {
-        TWO_OR = SAFE_RANGE,
-        TWO_AND,
-        SG_QUOTE,
-        DB_QUOTE,
-        W_LS,
+        W_LS = SAFE_RANGE,
         W_LD,
         GO_L,
         W_RS,
@@ -45,8 +40,8 @@ enum TapDanceKeycodes {
         R_BRK_SHIFT,
         L_SQRB_ALT,
         R_SQRB_ALT,
-        ESC_GUI_NUMS,
-        RST_KEYB
+        RST_KEYB,
+        ESC_GUI
 };
 
 typedef struct {
@@ -67,39 +62,42 @@ enum {
 uint8_t isDefaultLayer = _BASE;
 const uint8_t MODS_TAP_COUNT = 2;
 
-#define TO_FUNC         TT(_FUNC)
-#define TO_SYMB         TT(_SYMB)
-#define NVMD_TAB        LT(_NVMD, KC_TAB)
-#define NUMS_ESC        LT(_NUMS, KC_ESC)
+//#define TO_FUNC         TT(_FUNC)
+//#define TO_SYMB         TT(_SYMB)
+#define TO_FUNC         OSL(_FUNC)
+#define TO_SYMB         OSL(_SYMB)
+#define NVMD_TAB        LT(_MEDI, KC_TAB)
 #define TD_L_PT_CR      TD(L_PRT_CTRL)
 #define TD_R_PT_CR      TD(R_PRT_CTRL)
 #define TD_L_BR_SH      TD(L_BRK_SHIFT)
 #define TD_R_BR_SH      TD(R_BRK_SHIFT)
 #define TD_L_SQ_AL      TD(L_SQRB_ALT)
 #define TD_R_SQ_AL      TD(R_SQRB_ALT)
-#define TD_E_G_LNS      TD(ESC_GUI_NUMS)
 #define TD_RST_KYB      TD(RST_KEYB)
+#define TD_ESC_GUI      TD(ESC_GUI)
+#define NAVI_INS        LT(_NAVI, KC_INS)
+#define NAVI_APP        LT(_NAVI, KC_APP)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
-                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    KC_GRAVE,       /**/  \
-                  TD_L_PT_CR,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_EQL,         /**/  \
-                  TD_L_BR_SH,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,    KC_APP,         /**/  \
-                  TD_L_SQ_AL,  KC_HOME,  KC_PGUP,  KC_END,  TO_FUNC,    KC_SPC,    KC_DEL,         /**/  \
-                                         KC_PGDN,                                                  /**/  \
-                                                                    KC_QUOTE,       KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    TD_E_G_LNS,     \
-                                                                    KC_MINS,        KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,     \
-                                                                    KC_INS,         KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,     \
-                                                                    KC_BSPC,        KC_ENT,     TO_SYMB,  KC_LEFT,  KC_UP,    KC_RGHT, TD_R_SQ_AL,     \
-                                                                                                                    KC_DOWN
+                    NVMD_TAB,     KC_Q,     KC_W,    KC_E,     KC_R,      KC_T,    KC_NO,          /**/  \
+                  TD_L_PT_CR,     KC_A,     KC_S,    KC_D,     KC_F,      KC_G,    KC_NO,          /**/  \
+                  TD_L_BR_SH,     KC_Z,     KC_X,    KC_C,     KC_V,      KC_B,    KC_NO,          /**/  \
+                  TD_L_SQ_AL,     KC_NO,    KC_NO,   NAVI_INS, TO_FUNC,   KC_SPC,  KC_DEL,         /**/  \
+                                            KC_NO,                                                 /**/  \
+                                                                    KC_NO,          KC_Y,       KC_U,     KC_I,     KC_O,     KC_P,    TD_ESC_GUI,     \
+                                                                    KC_NO,          KC_H,       KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,     \
+                                                                    KC_NO,          KC_N,       KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,     \
+                                                                    KC_BSPC,        KC_ENT,     TO_SYMB,  NAVI_APP, KC_NO,    KC_NO,   TD_R_SQ_AL,     \
+                                                                                                                    KC_NO
         ),
         [_SYMB] = LAYOUT(
-                      KC_TAB,    KC_NO,   KC_PIPE, SG_QUOTE,   KC_GRV,   TWO_OR,     KC_NO, /**/  \
-                     KC_LCTL,     KC_1,      KC_2,     KC_3,     KC_4,     KC_5,     KC_NO, /**/  \
-                     KC_LSFT,    KC_NO,    KC_DLR,  KC_LCBR,  KC_RCBR,    KC_NO,     KC_NO, /**/  \
-                     KC_LALT,  KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_LALT,  KC_LSFT,     KC_NO, /**/  \
-                                          KC_TRNS,                                          /**/  \
-                                                                    KC_NO,    TWO_AND,    KC_QUOT,  DB_QUOTE, KC_AMPR,  KC_NO,   KC_ESC,      \
+                      KC_TAB,    KC_NO,     KC_NO,   KC_GRV,   KC_PIPE,   KC_EQL,    KC_NO,  /**/  \
+                     KC_LCTL,     KC_1,      KC_2,     KC_3,     KC_4,     KC_5,     KC_NO,  /**/  \
+                     KC_LSFT,    KC_NO,    KC_DLR,  KC_LCBR,  KC_RCBR,    KC_NO,     KC_NO,  /**/  \
+                     KC_LALT,  KC_TRNS,   KC_TRNS,  KC_TRNS,  KC_LALT,  KC_LSFT,     KC_NO,  /**/  \
+                                          KC_TRNS,                                           /**/  \
+                                                                    KC_NO,    KC_MINS,    KC_AMPR,  KC_QUOT,  KC_NO,    KC_NO,   KC_ESC,      \
                                                                     KC_NO,    KC_6,       KC_7,     KC_8,     KC_9,     KC_0,    KC_RCTL,     \
                                                                     KC_NO,    KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_BSLS, KC_RSFT,     \
                                                                     KC_NO,    KC_NO,      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS, KC_ALGR,     \
@@ -117,19 +115,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                     KC_NO,    KC_LSFT,    KC_LALT,    KC_TRNS,  KC_TRNS,  KC_TRNS,   KC_ALGR,     \
                                                                                                                 KC_TRNS
         ),
-        [_NUMS] = LAYOUT(
-                    KC_NO,   KC_NO,     KC_7,    KC_8,     KC_9,   KC_MINS,    KC_NO, /**/  \
-                    KC_NO,   KC_NO,     KC_4,    KC_5,     KC_6,    KC_DOT,    KC_NO, /**/  \
-                    KC_NO,   KC_NO,     KC_1,    KC_2,     KC_3,   KC_SLSH,    KC_NO, /**/  \
-                    KC_NO,   KC_NO,     KC_0,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/  \
-                                       KC_NO,                                         /**/  \
-                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_TRNS, \
-                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,   \
-                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,   \
-                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,   \
-                                                                                                               KC_NO
-        ),
-        [_NVMD] = LAYOUT(
+        [_MEDI] = LAYOUT(
                   KC_TRNS,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ \
                     KC_NO,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ \
                   KC_WAKE,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO, /**/ \
@@ -140,6 +126,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                     KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_MUTE,  KC_NO,   KC_NO,      \
                                                                     GO_R,      W_RD,       W_RS,     KC_MPRV,  KC_VOLU,  KC_MNXT, KC_MPLY,    \
                                                                                                                KC_VOLD
+        ),
+        [_NAVI] = LAYOUT(
+                  KC_TAB,    KC_NO,    KC_NO,   KC_PGUP,  KC_NO,     KC_NO,    KC_NO,  /**/ \
+                  KC_LCTL,   KC_NO,    KC_HOME, KC_PGDN,  KC_END,    KC_INS,   KC_NO,  /**/ \
+                  KC_LSFT,   KC_NO,    KC_NO,   KC_NO,    KC_NO,     KC_NO,    KC_NO,  /**/ \
+                  KC_LALT,   KC_NO,    KC_NO,   KC_NO,    KC_LALT,   KC_LSFT,  KC_NO,  /**/ \
+                                       KC_NO,                                          /**/ \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_UP,    KC_NO,    KC_NO,   KC_ESC,    \
+                                                                    KC_NO,     KC_APP,     KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_NO,   KC_RCTL,   \
+                                                                    KC_NO,     KC_NO,      KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_RSFT,   \
+                                                                    KC_NO,     KC_LSFT,    KC_LALT,  KC_NO,    KC_NO,    KC_NO,   KC_ALGR,   \
+                                                                                                               KC_NO
         )
 };
 
@@ -337,11 +335,10 @@ static tap EscOrGui_state = {
   .state = 0
 };
 
-void dance_EscGuiOrLayer_finished (qk_tap_dance_state_t *state, void *user_data) {
+void dance_EscGui_finished (qk_tap_dance_state_t *state, void *user_data) {
   EscOrGui_state.state = cur_dance(state);
   switch (EscOrGui_state.state) {
     case SINGLE_TAP:  register_code(KC_ESC); break;
-    case SINGLE_HOLD: layer_on(_NUMS); break;
     case DOUBLE_TAP:  register_code(KC_LGUI); break;
     case DOUBLE_HOLD:  register_code(KC_LGUI); rgblight_setrgb_at(150, 150, 150, 0); break;
     //Last case is for fast typing. Assuming your key is `f`:
@@ -350,10 +347,9 @@ void dance_EscGuiOrLayer_finished (qk_tap_dance_state_t *state, void *user_data)
   }
 }
 
-void dance_EscGuiOrLayer_reset (qk_tap_dance_state_t *state, void *user_data) {
+void dance_EscGui_reset (qk_tap_dance_state_t *state, void *user_data) {
   switch (EscOrGui_state.state) {
     case SINGLE_TAP:  unregister_code(KC_ESC); break;
-    case SINGLE_HOLD: layer_off(_NUMS); break;
     case DOUBLE_TAP:  unregister_code(KC_LGUI); break;
     case DOUBLE_HOLD:  unregister_code(KC_LGUI); rgblight_setrgb_at(0, 0, 0, 0); break;
   }
@@ -393,7 +389,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [R_BRK_SHIFT]  = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_shift_finished, dance_r_shift_reset),
     [L_SQRB_ALT]   = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_l_alt_finished, dance_l_alt_reset),
     [R_SQRB_ALT]   = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_r_alt_finished, dance_r_alt_reset),
-    [ESC_GUI_NUMS] = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_EscGuiOrLayer_finished, dance_EscGuiOrLayer_reset),
+    [ESC_GUI]      = ACTION_TAP_DANCE_FN_ADVANCED (NULL, dance_EscGui_finished, dance_EscGui_reset),
     [RST_KEYB]     = ACTION_TAP_DANCE_FN (dance_ResetKeyboard)
 };
 
@@ -406,30 +402,6 @@ void matrix_init_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         switch (keycode) {
-        case TWO_AND:
-                if (record->event.pressed) {
-                        SEND_STRING(" && ");
-                }
-                break;
-
-        case TWO_OR:
-                if (record->event.pressed) {
-                        SEND_STRING(" || ");
-                }
-                break;
-
-        case SG_QUOTE:
-                if (record->event.pressed) {
-                        SEND_STRING("' ");
-                }
-                break;
-
-        case DB_QUOTE:
-                if (record->event.pressed) {
-                        SEND_STRING("\" ");
-                }
-                break;
-
         case W_LS:
                 if (record->event.pressed) {
                         SEND_STRING(SS_DOWN(X_LCTRL));
@@ -519,12 +491,12 @@ uint32_t layer_state_set_user(uint32_t state) {
                 isDefaultLayer = _FUNC;
                 rgblight_setrgb_at(130, 0, 0, 6);
                 break;
-        case _NUMS:
-                isDefaultLayer = _NUMS;
+        case _MEDI:
+                isDefaultLayer = _MEDI;
                 rgblight_setrgb_at(130, 255, 130, 0);
                 break;
-        case _NVMD:
-                isDefaultLayer = _NVMD;
+        case _NAVI:
+                isDefaultLayer = _NAVI;
                 rgblight_setrgb_at(130, 255, 130, 7);
                 break;
         // case 2:
@@ -539,5 +511,23 @@ uint32_t layer_state_set_user(uint32_t state) {
         }
 
         return state;
+}
+
+void oneshot_layer_changed_user(uint8_t layerId) {
+  if (layerId) {
+      uint8_t layer = biton32(layerId);
+      
+      if (layer == _NAVI) {
+          isDefaultLayer = _NAVI;
+          rgblight_setrgb_at(130, 255, 130, 7);
+      }
+      
+  } else {
+    isDefaultLayer = _BASE;
+    rgblight_setrgb_at(0, 0, 0, 0);
+    rgblight_setrgb_at(0, 0, 0, 1);
+    rgblight_setrgb_at(0, 0, 0, 6);
+    rgblight_setrgb_at(0, 0, 0, 7);
+  }
 }
 
