@@ -77,33 +77,34 @@ const uint8_t MODS_TAP_COUNT = 2;
 #define TD_ESC_GUI      TD(ESC_GUI)
 #define NAVI_INS        LT(_NAVI, KC_INS)
 #define NAVI_APP        LT(_NAVI, KC_APP)
+#define TO_NAVI         MO(_NAVI)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         [_BASE] = LAYOUT(
                  NVMD_TAB,     KC_Q,     KC_W,      KC_E,     KC_R,     KC_T,            /**/  \
                TD_L_PT_CR,     KC_A,     KC_S,      KC_D,     KC_F,     KC_G,            /**/  \
                TD_L_BR_SH,     KC_Z,     KC_X,      KC_C,     KC_V,     KC_B,            /**/  \
-               TD_L_SQ_AL,           NAVI_APP,             TO_FUNC,   KC_SPC,   KC_DEL,  /**/  \
+               TD_L_SQ_AL,                       TO_NAVI,  TO_FUNC,   KC_SPC,   KC_DEL,  /**/  \
                                                                                     KC_Y,      KC_U,     KC_I,     KC_O,     KC_P,    TD_ESC_GUI,     \
                                                                                     KC_H,      KC_J,     KC_K,     KC_L,     KC_SCLN, TD_R_PT_CR,     \
                                                                                     KC_N,      KC_M,     KC_COMM,  KC_DOT,   KC_SLSH, TD_R_BR_SH,     \
-                                                                        KC_BSPC,    KC_ENT,    TO_SYMB,            NAVI_INS,          TD_R_SQ_AL      
+                                                                        KC_BSPC,    KC_ENT,    TO_SYMB,  TO_NAVI,                     TD_R_SQ_AL      
         ),
         [_SYMB] = LAYOUT(
                    KC_TAB,    KC_NO,    KC_NO,    KC_GRV,  KC_PIPE,   KC_EQL,            /**/  \
                   KC_LCTL,     KC_1,     KC_2,      KC_3,     KC_4,     KC_5,            /**/  \
-                  KC_LSFT,    KC_NO,   KC_DLR,   KC_LCBR,  KC_RCBR,    KC_NO,            /**/  \
-                  KC_LALT,            KC_TRNS,             KC_LALT,  KC_LSFT,  KC_RCTL,  /**/  \
+                  KC_LSFT,    KC_NO,   KC_DLR,   KC_LCBR,  KC_RCBR,   KC_APP,            /**/  \
+                  KC_LALT,                       KC_TRNS,  KC_LALT,  KC_LSFT,  KC_RCTL,  /**/  \
                                                                                     KC_MINS,   KC_AMPR,  KC_QUOT,  KC_NO,    KC_NO,   KC_ESC,      \
                                                                                     KC_6,      KC_7,     KC_8,     KC_9,     KC_0,    KC_RCTL,     \
-                                                                                    KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_BSLS, KC_RSFT,     \
-                                                                        KC_NO,      KC_NO,     KC_TRNS,            KC_TRNS,           KC_ALGR    
+                                                                                    KC_INS,    KC_NO,    KC_NO,    KC_NO,    KC_BSLS, KC_RSFT,     \
+                                                                        KC_NO,      KC_NO,     KC_TRNS,  KC_TRNS,                     KC_ALGR    
         ),
         [_FUNC] = LAYOUT(
                    KC_TAB,    KC_NO,   KC_F10,    KC_F11,   KC_F12,    KC_NO,            /**/  \
                   KC_LCTL,    KC_NO,    KC_F7,     KC_F8,    KC_F9,    KC_NO,            /**/  \
                   KC_LSFT,    KC_NO,    KC_NO,     KC_NO,    KC_NO,    KC_NO,            /**/  \
-                  KC_LALT,            KC_TRNS,             KC_TRNS,    KC_NO,    KC_NO,  /**/  \
+                  KC_LALT,                       KC_TRNS,  KC_TRNS,    KC_NO,    KC_NO,  /**/  \
                                                                                     KC_NO,     KC_F4,    KC_F5,    KC_F6,    KC_NO,   KC_ESC,      \
                                                                                     KC_NO,     KC_F1,    KC_F2,    KC_F3,    KC_NO,   KC_RCTL,     \
                                                                                     KC_NO,     KC_DLR,   KC_LPRN,  KC_RPRN,  KC_NO,   KC_RSFT,     \
@@ -113,21 +114,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                   KC_TRNS,    KC_NO,    KC_NO,   KC_VOLU,    KC_NO,    KC_NO,            /**/ \
                     KC_NO,    KC_NO,  KC_MPRV,   KC_VOLD,  KC_MNXT,    KC_NO,            /**/ \
                   KC_WAKE,    KC_NO,    KC_NO,   KC_MUTE,    KC_NO,    KC_NO,            /**/ \
-                  KC_SLEP,              KC_NO,                W_LS,     W_LD,     GO_L,  /**/ \
+                  KC_SLEP,                         KC_NO,     W_LS,     W_LD,     GO_L,  /**/ \
                                                                                     KC_NO,     KC_NO,    KC_WH_U,  KC_NO,    KC_NO,   TD_RST_KYB, \
                                                                                     KC_NO,     KC_WH_L,  KC_WH_D,  KC_WH_R,  KC_NO,   KC_NO,      \
                                                                                     KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,      \
-                                                                        GO_R,       W_RD,      W_RS,               KC_NO,             KC_MPLY    
+                                                                        GO_R,       W_RD,      W_RS,     KC_NO,                       KC_MPLY    
         ),
         [_NAVI] = LAYOUT(
                   KC_TAB,     KC_NO,    KC_NO,   KC_PGUP,    KC_NO,    KC_NO,            /**/ \
                   KC_LCTL,    KC_NO,  KC_HOME,   KC_PGDN,   KC_END,   KC_INS,            /**/ \
                   KC_LSFT,    KC_NO,    KC_NO,     KC_NO,    KC_NO,    KC_NO,            /**/ \
-                  KC_LALT,            KC_TRNS,             KC_LALT,  KC_LSFT,  KC_LCTL,  /**/ \
+                  KC_LALT,                       KC_TRNS,  KC_LALT,  KC_LSFT,  KC_LCTL,  /**/ \
                                                                                     KC_NO,     KC_NO,    KC_UP,    KC_NO,    KC_NO,   KC_ESC,    \
                                                                                     KC_APP,    KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_NO,   KC_RCTL,   \
                                                                                     KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_RSFT,   \
-                                                                        KC_LCTL,    KC_LSFT,   KC_LALT,            KC_TRNS,           KC_ALGR
+                                                                        KC_LCTL,    KC_LSFT,   KC_LALT,  KC_TRNS,                     KC_ALGR
         )
 };
 
