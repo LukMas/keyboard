@@ -122,11 +122,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         ),
         [_NAVI] = LAYOUT(
                   KC_TAB,     KC_NO,    KC_NO,   KC_PGUP,    KC_NO,    KC_NO,            /**/ \
-                  KC_LCTL,    KC_NO,  KC_HOME,   KC_PGDN,   KC_END,   KC_INS,            /**/ \
+                  KC_LCTL,    KC_NO,  KC_HOME,   KC_PGDN,   KC_END,    KC_NO,            /**/ \
                   KC_LSFT,    KC_NO,    KC_NO,     KC_NO,    KC_NO,    KC_NO,            /**/ \
                   KC_LALT,                       KC_TRNS,  KC_LALT,  KC_LSFT,  KC_LCTL,  /**/ \
                                                                                     KC_NO,     KC_NO,    KC_UP,    KC_NO,    KC_NO,   KC_ESC,    \
-                                                                                    KC_APP,    KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_NO,   KC_RCTL,   \
+                                                                                    KC_NO,     KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_NO,   KC_RCTL,   \
                                                                                     KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_RSFT,   \
                                                                         KC_LCTL,    KC_LSFT,   KC_LALT,  KC_TRNS,                     KC_ALGR
         )
