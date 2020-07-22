@@ -94,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_TAB,    KC_NO,    KC_NO,    KC_GRV,  KC_PIPE,   KC_EQL,            /**/  \
                   KC_LCTL,     KC_1,     KC_2,      KC_3,     KC_4,     KC_5,            /**/  \
                   KC_LSFT,    KC_NO,   KC_DLR,   KC_LCBR,  KC_RCBR,   KC_APP,            /**/  \
-                  KC_LALT,                       KC_TRNS,  KC_LALT,  KC_LSFT,  KC_RCTL,  /**/  \
+                  KC_LALT,                       TO_NAVI,  KC_LALT,  KC_LSFT,  KC_RCTL,  /**/  \
                                                                                     KC_MINS,   KC_AMPR,  KC_QUOT,  KC_NO,    KC_NO,   KC_ESC,      \
                                                                                     KC_6,      KC_7,     KC_8,     KC_9,     KC_0,    KC_RCTL,     \
                                                                                     KC_INS,    KC_NO,    KC_NO,    KC_NO,    KC_BSLS, KC_RSFT,     \
@@ -108,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                     KC_NO,     KC_F4,    KC_F5,    KC_F6,    KC_NO,   KC_ESC,      \
                                                                                     KC_NO,     KC_F1,    KC_F2,    KC_F3,    KC_NO,   KC_RCTL,     \
                                                                                     KC_NO,     KC_DLR,   KC_LPRN,  KC_RPRN,  KC_NO,   KC_RSFT,     \
-                                                                        KC_LCTL,    KC_LSFT,   KC_LALT,            KC_TRNS,           KC_ALGR    
+                                                                        KC_LCTL,    KC_LSFT,   KC_LALT,  TO_NAVI,                     KC_ALGR    
         ),
         [_MEDI] = LAYOUT(
                   KC_TRNS,    KC_NO,    KC_NO,   KC_VOLU,    KC_NO,    KC_NO,            /**/ \
@@ -478,20 +478,22 @@ uint32_t layer_state_set_user(uint32_t state) {
                 isDefaultLayer = _SYMB;
                 rgblight_setrgb_at(130, 0, 0, 1);
                 break;
+                
         case _FUNC:
                 isDefaultLayer = _FUNC;
                 rgblight_setrgb_at(130, 0, 0, 6);
                 break;
-        case _MEDI:
+                
+        case _MEDI: 
                 isDefaultLayer = _MEDI;
                 rgblight_setrgb_at(130, 255, 130, 0);
                 break;
+                
         case _NAVI:
                 isDefaultLayer = _NAVI;
                 rgblight_setrgb_at(130, 255, 130, 7);
                 break;
-        // case 2:
-        // break;
+                
         default:
                 isDefaultLayer = _BASE;
                 rgblight_setrgb_at(0, 0, 0, 0);

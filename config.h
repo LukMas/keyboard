@@ -62,7 +62,7 @@
 //#define PERMISSIVE_HOLD
 //#define IGNORE_MOD_TAP_INTERRUPT
 #define ONESHOT_TAP_TOGGLE 2  /* Tapping this number of times holds the key until tapped this number of times again. */
-#define ONESHOT_TIMEOUT 2000
+#define ONESHOT_TIMEOUT 1500
 #define TAPPING_TOGGLE 2
 
 // #define BACKLIGHT_PIN B7
