@@ -29,14 +29,8 @@
 #define DESCRIPTION     Split58 keyboard
 
 
-// #undef LEADER_TIMEOUT
-// #define LEADER_TIMEOUT 100
-#undef LEADER_TIMEOUT
-#define LEADER_TIMEOUT 500
-#define LEADER_PER_KEY_TIMING
-
 /* key matrix size */
-#define MATRIX_ROWS 5
+#define MATRIX_ROWS 4
 #define MATRIX_COLS 14
 
 /*
@@ -49,7 +43,7 @@
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  * yes
  */
-#define MATRIX_ROW_PINS {B0, B1, B2, B3, E6}
+#define MATRIX_ROW_PINS {B0, B1, B2, B3}
 // #define MATRIX_COL_PINS {F1, F4, F5, F6, F7, B6, B5}
 // #define MATRIX_COL_PINS {F6, F7, B6, B5, F1, F4, F5}
 #define MATRIX_COL_PINS    {B5, B6, F7, F6, F5, F4, F1, C7, C6, D3, D2, D1, D0, B7}
@@ -61,9 +55,9 @@
 #define TAPPING_TERM 200
 //#define PERMISSIVE_HOLD
 //#define IGNORE_MOD_TAP_INTERRUPT
-//#define ONESHOT_TAP_TOGGLE 2  /* Tapping this number of times holds the key until tapped this number of times again. */
-//#define ONESHOT_TIMEOUT 4000
-#define TAPPING_TOGGLE 2
+#define ONESHOT_TAP_TOGGLE 2  /* Tapping this number of times holds the key until tapped this number of times again. */
+#define ONESHOT_TIMEOUT 1500
+#define TAPPING_TOGGLE 3
 
 // #define BACKLIGHT_PIN B7
 // #define BACKLIGHT_BREATHING
