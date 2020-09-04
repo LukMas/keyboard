@@ -51,7 +51,7 @@ BOOTLOADER = halfkay
 # Build Options
 #   change yes to no to disable
 #
-LEADER_ENABLE = yes
+LEADER_ENABLE = no
 TAP_DANCE_ENABLE = yes
 RGBLIGHT_ENABLE = yes
 BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration(+1000)
