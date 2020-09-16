@@ -30,7 +30,8 @@
           GO_L,
           W_RS,
           W_RD,
-          GO_R
+          GO_R,
+          LOCK
   };
 
   enum TapDanceKeycodes {
@@ -112,7 +113,7 @@
                     KC_TRNS,    KC_NO,    KC_NO,   KC_VOLU,    KC_NO,    KC_NO,            /**/ \
                       KC_NO,    KC_NO,  KC_MPRV,   KC_VOLD,  KC_MNXT,    KC_NO,            /**/ \
                     KC_WAKE,    KC_NO,    KC_NO,   KC_MUTE,    KC_NO,    KC_NO,     KC_NO, /**/ \
-                    KC_SLEP,    KC_NO,                          W_LS,     W_LD,     GO_L,  /**/ \
+                       LOCK,    KC_NO,                          W_LS,     W_LD,     GO_L,  /**/ \
                                                                                       KC_NO,     KC_NO,    KC_WH_U,  KC_NO,    KC_NO,   TD_RST_KYB, \
                                                                                       KC_NO,     KC_WH_L,  KC_WH_D,  KC_WH_R,  KC_NO,   KC_NO,      \
                                                                           KC_NO,      KC_NO,     KC_NO,    KC_NO,    KC_NO,    KC_NO,   KC_NO,      \
@@ -460,6 +461,14 @@
                           SEND_STRING(SS_TAP(X_RIGHT));
                           SEND_STRING(SS_UP(X_LALT));
                           SEND_STRING(SS_UP(X_LCTRL));
+                  }
+                  break;
+                  
+          case LOCK: 
+                  if (record->event.pressed){
+                          SEND_STRING(SS_DOWN(X_LGUI));
+                          SEND_STRING(SS_TAP(X_L));
+                          SEND_STRING(SS_UP(X_LGUI));
                   }
                   break;
           }
