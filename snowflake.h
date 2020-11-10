@@ -13,7 +13,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef SNOWFLAKE_H
+#define SNOWFLAKE_H
 
-#pragma once
+#include "quantum.h"
+// #include "rgblight.h"
 
+
+#define LAYOUT( \
+                k00, k01, k02,  k03, k04, k05,  \
+                k10, k11, k12,  k13, k14, k15   \
+               ) \
+            { \
+               { k00,    k01,   k02,    k03,   k04,   k05  },  \
+               { k10,    k11,   k12,    k13,   k14,   k15  }   \
+            }
+
+#endif
 

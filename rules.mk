@@ -45,15 +45,20 @@ OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 #   Atmel DFU loader 4096
 #   LUFA bootloader  4096
 #   USBaspLoader     2048
-BOOTLOADER = halfkay
+BOOTLOADER = caterina
 #OPT_DEFS += -DBOOTLOADER_SIZE=1024
+
+SPLIT_KEYBOARD = yes
+
+OLED_DRIVER_ENABLE = yes
 
 # Build Options
 #   change yes to no to disable
 #
 LEADER_ENABLE = no
-TAP_DANCE_ENABLE = yes
-RGBLIGHT_ENABLE = yes
+TAP_DANCE_ENABLE = no
+RGBLIGHT_ENABLE = no
+RGB_MATRIX_ENABLE = WS2812
 BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = yes       # Mouse keys(+4700)
 EXTRAKEY_ENABLE = yes       # Audio control and System control(+450)

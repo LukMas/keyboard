@@ -8,7 +8,7 @@ Hardware Availability: links to where you can find this hardware
 
 Make example for this keyboard (after setting up your build environment):
 
-    make icekeys:default
+    make snowflake:default
     
     
     
